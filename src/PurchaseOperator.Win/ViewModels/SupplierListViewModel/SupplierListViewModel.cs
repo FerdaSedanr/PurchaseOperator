@@ -18,7 +18,7 @@ public class SupplierListViewModel
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _configuration;
     public Supplier SelectedSupplier { get; set; }
-    public IEnumerable<Supplier> Items { get; set; }
+    public IEnumerable<Supplier> Items { get; set; } = Enumerable.Empty<Supplier>();
 
     public int FirmNumber { get; set; }
     public int PeriodNumber { get; set; }
@@ -43,7 +43,7 @@ public class SupplierListViewModel
             if (!string.IsNullOrEmpty(token))
             {
                 httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-
+                Items.ToList().Clear();
                 var result = await _supplierService.GetObjectsAsync(httpClient, FirmNumber, PeriodNumber);
                 Items = (IEnumerable<Supplier>)result.Data;
             }

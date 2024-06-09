@@ -20,6 +20,8 @@ public class DispatchItem
     public string SubUnitsetCode { get; set; } = string.Empty;
     public double DemandQuantity { get; set; } = default;
 
+    public double SupplyChainQuantity { get; set; } = default;
+
     public double? TotalQuantity { get; set; } = default;
 
     public double? TotalWaitingQuantity { get; set; } = default;

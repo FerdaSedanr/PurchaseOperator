@@ -33,6 +33,7 @@ namespace PurchaseOperator.Domain.Models.PurchaseOrderModel
         public double? WaitingQuantity { get; set; }
 
         public double DemandQuantity { get; set; } = default;
+        public double SupplyChainQuantity { get; set; } = default;
 
         public double? UnitPrice { get; set; }
 

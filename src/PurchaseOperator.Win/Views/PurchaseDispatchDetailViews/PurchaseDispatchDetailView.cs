@@ -44,6 +44,24 @@ public partial class PurchaseDispatchDetailView : DevExpress.XtraEditors.XtraFor
         //gridView1.SelectionChanged += gridView1_SelectionChanged;
     }
 
+    protected async override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+
+        if (splashScreenManager1.IsSplashFormVisible)
+            splashScreenManager1.CloseWaitForm();
+
+        splashScreenManager1.ShowWaitForm();
+        splashScreenManager1.SetWaitFormCaption("Ürünler Listesi");
+        splashScreenManager1.SetWaitFormDescription("Yükleniyor, Lütfen bekleyiniz..");
+
+        await Task.Delay(1000);
+        await _viewModel.LoadDataAsync();
+        gridControl1.RefreshDataSource();
+        gridView1.BestFitColumns();
+        splashScreenManager1.CloseWaitForm();
+    }
+
     private async void windowsuıButtonPanel1_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
     {
         switch (e.Button.Properties.Caption)
@@ -109,20 +127,20 @@ public partial class PurchaseDispatchDetailView : DevExpress.XtraEditors.XtraFor
         }
     }
 
-    private async void PurchaseDispatchDetailView_Load(object sender, EventArgs e)
+    private void PurchaseDispatchDetailView_Load(object sender, EventArgs e)
     {
-        if (splashScreenManager1.IsSplashFormVisible)
-            splashScreenManager1.CloseWaitForm();
+        //if (splashScreenManager1.IsSplashFormVisible)
+        //    splashScreenManager1.CloseWaitForm();
 
-        splashScreenManager1.ShowWaitForm();
-        splashScreenManager1.SetWaitFormCaption("Ürünler Listesi");
-        splashScreenManager1.SetWaitFormDescription("Yükleniyor, Lütfen bekleyiniz..");
+        //splashScreenManager1.ShowWaitForm();
+        //splashScreenManager1.SetWaitFormCaption("Ürünler Listesi");
+        //splashScreenManager1.SetWaitFormDescription("Yükleniyor, Lütfen bekleyiniz..");
 
-        await Task.Delay(1000);
-        await _viewModel.LoadDataAsync();
-        gridControl1.RefreshDataSource();
-        gridView1.BestFitColumns();
-        splashScreenManager1.CloseWaitForm();
+        //await Task.Delay(1000);
+        //await _viewModel.LoadDataAsync();
+        //gridControl1.RefreshDataSource();
+        //gridView1.BestFitColumns();
+        //splashScreenManager1.CloseWaitForm();
     }
 
     public async Task LoadDataAsync()

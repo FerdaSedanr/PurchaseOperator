@@ -29,8 +29,10 @@ using PurchaseOperator.Infrastructure.DataStores.SupplierDataStore;
 using PurchaseOperator.Win.ViewModels.ConfirmViewModels;
 using PurchaseOperator.Win.ViewModels.CustomPurchaseDispatchPreviewViewModels;
 using PurchaseOperator.Win.ViewModels.LoginViewModel;
+using PurchaseOperator.Win.ViewModels.MainMenuViewModels;
 using PurchaseOperator.Win.ViewModels.ProductListViewModels;
 using PurchaseOperator.Win.ViewModels.PurchaseDispatchDetailViewModel;
+using PurchaseOperator.Win.ViewModels.PurchaseDispatchListViewModels;
 using PurchaseOperator.Win.ViewModels.PurchaseDispatchPreviewViewModels;
 using PurchaseOperator.Win.ViewModels.PurchaseOrderListViewModel;
 using PurchaseOperator.Win.ViewModels.SupplierListViewModel;
@@ -78,44 +80,40 @@ internal static class Program
                 s.BaseAddress = new Uri("http://172.16.1.25:52789");
             });
 
-            services.AddSingleton<IAuthenticatePortalService, AuthenticatePortalDataStore>();
-            services.AddSingleton<IAuthenticateLBSService, AuthenticateLBSDataStore>();
-            services.AddSingleton<IOperatorService, OperatorDataStore>();
-            services.AddSingleton<IEmployeeService, EmployeeDataStore>();
-            services.AddSingleton<ISupplierService, CustomSupplierDataStore>();
-            services.AddSingleton<IPurchaseOrderService, PurchaseOrderDataStoreV2>();
-            services.AddSingleton<IPortalProductService, PortalProductDataStore>();
-            services.AddSingleton<IPurchaseDispatchService, PurchaseDispatchDataStore>();
-            services.AddSingleton<IPortalProductService, PortalProductDataStore>();
-            services.AddSingleton<ICustomerService, CustomerDataStore>();
-            services.AddSingleton<IQCNotificationService, QCNotificationDataStore>();
-            services.AddSingleton<IQCNotificationDetailService, QCNotificationDetailDataStore>();
-            services.AddSingleton<ISubUnitsetService, SubUnitsetDataStore>();
-            services.AddSingleton<ILogoProductService, LogoProductDataStore>();
+            services.AddTransient<IAuthenticatePortalService, AuthenticatePortalDataStore>();
+            services.AddTransient<IAuthenticateLBSService, AuthenticateLBSDataStore>();
+            services.AddTransient<IOperatorService, OperatorDataStore>();
+            services.AddTransient<IEmployeeService, EmployeeDataStore>();
+            services.AddTransient<ISupplierService, CustomSupplierDataStore>();
+            services.AddTransient<IPurchaseOrderService, PurchaseOrderDataStoreV2>();
+            services.AddTransient<IPortalProductService, PortalProductDataStore>();
+            services.AddTransient<IPurchaseDispatchService, PurchaseDispatchDataStore>();
+            services.AddTransient<IPortalProductService, PortalProductDataStore>();
+            services.AddTransient<ICustomerService, CustomerDataStore>();
+            services.AddTransient<IQCNotificationService, QCNotificationDataStore>();
+            services.AddTransient<IQCNotificationDetailService, QCNotificationDetailDataStore>();
+            services.AddTransient<ISubUnitsetService, SubUnitsetDataStore>();
+            services.AddTransient<ILogoProductService, LogoProductDataStore>();
+            services.AddTransient<IPurchaseDispatchLineService, PurchaseDispatchLineDataStore>();
 
-            services.AddSingleton<LoginViewModel>();
-            services.AddSingleton<LoginView>();
-
-            services.AddSingleton<SupplierListViewModel>();
-            services.AddSingleton<SupplierListView>();
-
-            services.AddSingleton<PurchaseOrderListViewModel>();
-            services.AddSingleton<PurchaseOrderListView>();
-
-            services.AddSingleton<PurchaseDispatchDetailViewModel>();
-            services.AddSingleton<PurchaseDispatchDetailView>();
-
-            services.AddSingleton<PurchaseDispatchPreviewViewModel>();
-            services.AddSingleton<PurchaseDispatchPreview>();
-
-            services.AddSingleton<CustomPurchaseDispatchPreviewViewModel>();
-            services.AddSingleton<CustomPurchaseDispatchPreviewView>();
-
-            services.AddSingleton<ConfirmViewModel>();
-            services.AddSingleton<ConfirmView>();
-
-            services.AddSingleton<ProductListViewModel>();
-            services.AddSingleton<ProductListView>();
+            services.AddTransient<LoginViewModel>();
+            services.AddTransient<LoginView>();
+            services.AddTransient<MainMenuViewModel>();
+            services.AddTransient<PurchaseDispatchListViewModel>();
+            services.AddTransient<SupplierListViewModel>();
+            services.AddTransient<SupplierListView>();
+            services.AddTransient<PurchaseOrderListViewModel>();
+            services.AddTransient<PurchaseOrderListView>();
+            services.AddScoped<PurchaseDispatchDetailViewModel>();
+            services.AddScoped<PurchaseDispatchDetailView>();
+            services.AddTransient<PurchaseDispatchPreviewViewModel>();
+            services.AddTransient<PurchaseDispatchPreview>();
+            services.AddTransient<CustomPurchaseDispatchPreviewViewModel>();
+            services.AddTransient<CustomPurchaseDispatchPreviewView>();
+            services.AddTransient<ConfirmViewModel>();
+            services.AddTransient<ConfirmView>();
+            services.AddTransient<ProductListViewModel>();
+            services.AddTransient<ProductListView>();
         });
     }
 
