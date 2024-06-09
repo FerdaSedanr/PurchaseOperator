@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
 using Microsoft.Extensions.DependencyInjection;
+using PurchaseOperator.Win.Views.MainMenuViews;
+using PurchaseOperator.Win.ViewModels.MainMenuViewModels;
 
 namespace PurchaseOperator.Win.Views.LoginView;
 
@@ -45,17 +47,16 @@ public partial class LoginView : DevExpress.XtraEditors.XtraForm
                 var result = await _viewModel.UserLoginAsync(txtOperatorCode.Text);
                 if (result)
                 {
-                    //var supplierListViewModel = _serviceProvider.GetRequiredService<SupplierListViewModel>();
-                    this.Hide();
-                    var suppliersViews = _serviceProvider.GetRequiredService<SupplierListView>();
                     splashScreenManager1.CloseWaitForm();
-                    suppliersViews.ShowDialog();
+                    this.Hide();
+                    var mainMenuViewModel = _serviceProvider.GetService<MainMenuViewModel>();
+                    var mainMenuView = new MainMenuView(mainMenuViewModel, _serviceProvider);
+                    mainMenuView.Show();
                 }
                 else
                 {
-                    splashScreenManager1.ShowWaitForm();
-                    alertControl1.Show(this, new DevExpress.XtraBars.Alerter.AlertInfo("Uyarı", "Kullanıcı Bilgileri Geçersizdir..."));
                     splashScreenManager1.CloseWaitForm();
+                    alertControl1.Show(this, new DevExpress.XtraBars.Alerter.AlertInfo("Uyarı", "Kullanıcı Bilgileri Geçersizdir..."));
                 }
             }
             catch (Exception ex)

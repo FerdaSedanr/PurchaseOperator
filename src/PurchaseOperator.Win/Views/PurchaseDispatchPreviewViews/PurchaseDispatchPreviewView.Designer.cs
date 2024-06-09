@@ -127,24 +127,26 @@
             tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 2, 1);
             tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(1650, 872);
+            tableLayoutPanel1.Size = new System.Drawing.Size(1414, 708);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // pictureEdit1
             // 
             pictureEdit1.Dock = System.Windows.Forms.DockStyle.Fill;
             pictureEdit1.EditValue = resources.GetObject("pictureEdit1.EditValue");
-            pictureEdit1.Location = new System.Drawing.Point(3, 3);
+            pictureEdit1.Location = new System.Drawing.Point(3, 2);
+            pictureEdit1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             pictureEdit1.Name = "pictureEdit1";
             pictureEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             pictureEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             pictureEdit1.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-            pictureEdit1.Size = new System.Drawing.Size(406, 124);
+            pictureEdit1.Size = new System.Drawing.Size(347, 102);
             pictureEdit1.TabIndex = 0;
             // 
             // windowsuıButtonPanel1
@@ -169,9 +171,10 @@
             windowsuıButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] { new DevExpress.XtraBars.Docking2010.WindowsUIButton("Geri", true, windowsuıButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Çıkar", true, windowsuıButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Ekle", true, windowsuıButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Tamam", true, windowsuıButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false) });
             tableLayoutPanel1.SetColumnSpan(windowsuıButtonPanel1, 3);
             windowsuıButtonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            windowsuıButtonPanel1.Location = new System.Drawing.Point(3, 743);
+            windowsuıButtonPanel1.Location = new System.Drawing.Point(3, 603);
+            windowsuıButtonPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             windowsuıButtonPanel1.Name = "windowsuıButtonPanel1";
-            windowsuıButtonPanel1.Size = new System.Drawing.Size(1644, 126);
+            windowsuıButtonPanel1.Size = new System.Drawing.Size(1408, 103);
             windowsuıButtonPanel1.TabIndex = 1;
             windowsuıButtonPanel1.Text = "windowsuıButtonPanel1";
             windowsuıButtonPanel1.ButtonClick += windowsuıButtonPanel1_ButtonClick;
@@ -185,22 +188,25 @@
             tableLayoutPanel2.Controls.Add(gridControl1, 0, 1);
             tableLayoutPanel2.Controls.Add(layoutControl1, 0, 0);
             tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel2.Location = new System.Drawing.Point(3, 133);
+            tableLayoutPanel2.Location = new System.Drawing.Point(3, 108);
+            tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23F));
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(1280, 604);
+            tableLayoutPanel2.Size = new System.Drawing.Size(1096, 491);
             tableLayoutPanel2.TabIndex = 2;
             // 
             // gridControl1
             // 
             gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridControl1.Location = new System.Drawing.Point(3, 141);
+            gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            gridControl1.Location = new System.Drawing.Point(3, 114);
             gridControl1.MainView = gridView1;
+            gridControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             gridControl1.Name = "gridControl1";
             gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] { repositoryItemTextEdit1 });
-            gridControl1.Size = new System.Drawing.Size(1274, 460);
+            gridControl1.Size = new System.Drawing.Size(1090, 375);
             gridControl1.TabIndex = 0;
             gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridView1 });
             // 
@@ -213,6 +219,7 @@
             gridView1.Appearance.Row.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             gridView1.Appearance.Row.Options.UseFont = true;
             gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { gridColumn1, gridColumn2, gridColumn4, gridColumn5, gridColumn3, gridColumn6, gridColumn7, gridColumn8, gridColumn9 });
+            gridView1.DetailHeight = 284;
             gridView1.GridControl = gridControl1;
             gridView1.Name = "gridView1";
             gridView1.OptionsDetail.EnableMasterViewMode = false;
@@ -224,85 +231,85 @@
             // 
             gridColumn1.Caption = "Ürün Kodu";
             gridColumn1.FieldName = "Code";
-            gridColumn1.MinWidth = 25;
+            gridColumn1.MinWidth = 21;
             gridColumn1.Name = "gridColumn1";
             gridColumn1.OptionsColumn.AllowEdit = false;
             gridColumn1.OptionsColumn.ReadOnly = true;
             gridColumn1.Visible = true;
             gridColumn1.VisibleIndex = 1;
-            gridColumn1.Width = 146;
+            gridColumn1.Width = 125;
             // 
             // gridColumn2
             // 
             gridColumn2.Caption = "Ürün Adı";
             gridColumn2.FieldName = "Name";
-            gridColumn2.MinWidth = 25;
+            gridColumn2.MinWidth = 21;
             gridColumn2.Name = "gridColumn2";
             gridColumn2.OptionsColumn.AllowEdit = false;
             gridColumn2.OptionsColumn.ReadOnly = true;
             gridColumn2.Visible = true;
             gridColumn2.VisibleIndex = 2;
-            gridColumn2.Width = 133;
+            gridColumn2.Width = 114;
             // 
             // gridColumn4
             // 
             gridColumn4.Caption = "Bekleyen ";
             gridColumn4.FieldName = "TotalWaitingQuantity";
-            gridColumn4.MinWidth = 25;
+            gridColumn4.MinWidth = 21;
             gridColumn4.Name = "gridColumn4";
             gridColumn4.OptionsColumn.AllowEdit = false;
             gridColumn4.OptionsColumn.ReadOnly = true;
-            gridColumn4.Width = 145;
+            gridColumn4.Width = 124;
             // 
             // gridColumn5
             // 
             gridColumn5.Caption = "Kabul Edilen";
             gridColumn5.FieldName = "TotalShippedQuantity";
-            gridColumn5.MinWidth = 25;
+            gridColumn5.MinWidth = 21;
             gridColumn5.Name = "gridColumn5";
             gridColumn5.OptionsColumn.AllowEdit = false;
             gridColumn5.OptionsColumn.ReadOnly = true;
-            gridColumn5.Width = 165;
+            gridColumn5.Width = 141;
             // 
             // gridColumn3
             // 
-            gridColumn3.Caption = "Giriş Miktarı";
+            gridColumn3.Caption = "İrsaliye Miktarı";
             gridColumn3.FieldName = "CustomQuantity";
-            gridColumn3.MinWidth = 25;
+            gridColumn3.MinWidth = 21;
             gridColumn3.Name = "gridColumn3";
             gridColumn3.Visible = true;
             gridColumn3.VisibleIndex = 3;
-            gridColumn3.Width = 130;
+            gridColumn3.Width = 111;
             // 
             // gridColumn6
             // 
             gridColumn6.Caption = "Sayım Miktarı";
             gridColumn6.FieldName = "CountAmount";
-            gridColumn6.MinWidth = 25;
+            gridColumn6.MinWidth = 21;
             gridColumn6.Name = "gridColumn6";
             gridColumn6.Visible = true;
             gridColumn6.VisibleIndex = 4;
-            gridColumn6.Width = 163;
+            gridColumn6.Width = 140;
             // 
             // gridColumn7
             // 
             gridColumn7.Caption = "Talep Miktarı";
             gridColumn7.FieldName = "DemandQuantity";
-            gridColumn7.MinWidth = 25;
+            gridColumn7.MinWidth = 21;
             gridColumn7.Name = "gridColumn7";
             gridColumn7.OptionsColumn.AllowEdit = false;
-            gridColumn7.Width = 185;
+            gridColumn7.Width = 159;
             // 
             // gridColumn8
             // 
             gridColumn8.Caption = "Açıklama";
             gridColumn8.ColumnEdit = repositoryItemTextEdit1;
             gridColumn8.FieldName = "Description";
-            gridColumn8.MinWidth = 25;
+            gridColumn8.MinWidth = 21;
             gridColumn8.Name = "gridColumn8";
             gridColumn8.Visible = true;
             gridColumn8.VisibleIndex = 5;
-            gridColumn8.Width = 109;
+            gridColumn8.Width = 93;
             // 
             // repositoryItemTextEdit1
             // 
@@ -313,43 +320,46 @@
             // 
             gridColumn9.Caption = "Tedarikçi Kodu";
             gridColumn9.FieldName = "ManufactureCode";
-            gridColumn9.MinWidth = 25;
+            gridColumn9.MinWidth = 21;
             gridColumn9.Name = "gridColumn9";
             gridColumn9.Visible = true;
             gridColumn9.VisibleIndex = 0;
-            gridColumn9.Width = 154;
+            gridColumn9.Width = 132;
             // 
             // layoutControl1
             // 
             layoutControl1.Controls.Add(txtSupplierCode);
             layoutControl1.Controls.Add(txtSupplierName);
             layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            layoutControl1.Location = new System.Drawing.Point(3, 3);
+            layoutControl1.Location = new System.Drawing.Point(3, 2);
+            layoutControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             layoutControl1.Name = "layoutControl1";
             layoutControl1.Root = Root;
-            layoutControl1.Size = new System.Drawing.Size(1274, 132);
+            layoutControl1.Size = new System.Drawing.Size(1090, 108);
             layoutControl1.TabIndex = 1;
             layoutControl1.Text = "layoutControl1";
             // 
             // txtSupplierCode
             // 
-            txtSupplierCode.Location = new System.Drawing.Point(206, 12);
+            txtSupplierCode.Location = new System.Drawing.Point(169, 10);
+            txtSupplierCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtSupplierCode.Name = "txtSupplierCode";
             txtSupplierCode.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtSupplierCode.Properties.Appearance.Options.UseFont = true;
             txtSupplierCode.Properties.ReadOnly = true;
-            txtSupplierCode.Size = new System.Drawing.Size(1056, 44);
+            txtSupplierCode.Size = new System.Drawing.Size(910, 36);
             txtSupplierCode.StyleController = layoutControl1;
             txtSupplierCode.TabIndex = 4;
             // 
             // txtSupplierName
             // 
-            txtSupplierName.Location = new System.Drawing.Point(206, 60);
+            txtSupplierName.Location = new System.Drawing.Point(169, 50);
+            txtSupplierName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtSupplierName.Name = "txtSupplierName";
             txtSupplierName.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtSupplierName.Properties.Appearance.Options.UseFont = true;
             txtSupplierName.Properties.ReadOnly = true;
-            txtSupplierName.Size = new System.Drawing.Size(1056, 44);
+            txtSupplierName.Size = new System.Drawing.Size(910, 36);
             txtSupplierName.StyleController = layoutControl1;
             txtSupplierName.TabIndex = 5;
             // 
@@ -359,7 +369,7 @@
             Root.GroupBordersVisible = false;
             Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlItem1, layoutControlItem2 });
             Root.Name = "Root";
-            Root.Size = new System.Drawing.Size(1274, 132);
+            Root.Size = new System.Drawing.Size(1090, 108);
             Root.TextVisible = false;
             // 
             // layoutControlItem1
@@ -369,27 +379,28 @@
             layoutControlItem1.Control = txtSupplierCode;
             layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             layoutControlItem1.Name = "layoutControlItem1";
-            layoutControlItem1.Size = new System.Drawing.Size(1254, 48);
+            layoutControlItem1.Size = new System.Drawing.Size(1072, 40);
             layoutControlItem1.Text = "Tedarikçi Kodu";
-            layoutControlItem1.TextSize = new System.Drawing.Size(182, 37);
+            layoutControlItem1.TextSize = new System.Drawing.Size(148, 30);
             // 
             // layoutControlItem2
             // 
             layoutControlItem2.AppearanceItemCaption.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             layoutControlItem2.AppearanceItemCaption.Options.UseFont = true;
             layoutControlItem2.Control = txtSupplierName;
-            layoutControlItem2.Location = new System.Drawing.Point(0, 48);
+            layoutControlItem2.Location = new System.Drawing.Point(0, 40);
             layoutControlItem2.Name = "layoutControlItem2";
-            layoutControlItem2.Size = new System.Drawing.Size(1254, 64);
+            layoutControlItem2.Size = new System.Drawing.Size(1072, 52);
             layoutControlItem2.Text = "Tedarikçi Adı";
-            layoutControlItem2.TextSize = new System.Drawing.Size(182, 37);
+            layoutControlItem2.TextSize = new System.Drawing.Size(148, 30);
             // 
             // layoutControl2
             // 
-            layoutControl2.Location = new System.Drawing.Point(1289, 3);
+            layoutControl2.Location = new System.Drawing.Point(1105, 2);
+            layoutControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             layoutControl2.Name = "layoutControl2";
             layoutControl2.Root = layoutControlGroup1;
-            layoutControl2.Size = new System.Drawing.Size(8, 8);
+            layoutControl2.Size = new System.Drawing.Size(7, 6);
             layoutControl2.TabIndex = 3;
             layoutControl2.Text = "layoutControl2";
             // 
@@ -398,7 +409,7 @@
             layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             layoutControlGroup1.GroupBordersVisible = false;
             layoutControlGroup1.Name = "layoutControlGroup1";
-            layoutControlGroup1.Size = new System.Drawing.Size(20, 20);
+            layoutControlGroup1.Size = new System.Drawing.Size(18, 16);
             layoutControlGroup1.TextVisible = false;
             // 
             // tableLayoutPanel3
@@ -412,19 +423,21 @@
             tableLayoutPanel3.Controls.Add(btnDecrement, 0, 1);
             tableLayoutPanel3.Controls.Add(btnIncrement, 2, 1);
             tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel3.Location = new System.Drawing.Point(1289, 133);
+            tableLayoutPanel3.Location = new System.Drawing.Point(1105, 108);
+            tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
             tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.91391F));
             tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.0860929F));
-            tableLayoutPanel3.Size = new System.Drawing.Size(358, 604);
+            tableLayoutPanel3.Size = new System.Drawing.Size(306, 491);
             tableLayoutPanel3.TabIndex = 4;
             // 
             // txtQuantity
             // 
             txtQuantity.CausesValidation = false;
             txtQuantity.Dock = System.Windows.Forms.DockStyle.Fill;
-            txtQuantity.Location = new System.Drawing.Point(92, 534);
+            txtQuantity.Location = new System.Drawing.Point(79, 433);
+            txtQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtQuantity.Name = "txtQuantity";
             txtQuantity.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtQuantity.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(227, 6, 19);
@@ -439,7 +452,7 @@
             txtQuantity.Properties.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
             txtQuantity.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.NumericMaskManager));
             txtQuantity.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            txtQuantity.Size = new System.Drawing.Size(173, 67);
+            txtQuantity.Size = new System.Drawing.Size(147, 56);
             txtQuantity.TabIndex = 1;
             txtQuantity.Visible = false;
             txtQuantity.EditValueChanged += txtQuantity_EditValueChanged;
@@ -455,87 +468,95 @@
             layoutControl3.Controls.Add(txtDemandQuantity);
             layoutControl3.Controls.Add(txtWaitingQuantity);
             layoutControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            layoutControl3.Location = new System.Drawing.Point(3, 3);
+            layoutControl3.Location = new System.Drawing.Point(3, 2);
+            layoutControl3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             layoutControl3.Name = "layoutControl3";
             layoutControl3.Root = layoutControlGroup2;
-            layoutControl3.Size = new System.Drawing.Size(352, 525);
+            layoutControl3.Size = new System.Drawing.Size(300, 427);
             layoutControl3.TabIndex = 3;
             layoutControl3.Text = "layoutControl3";
             // 
             // txtProductCode
             // 
-            txtProductCode.Location = new System.Drawing.Point(191, 307);
+            txtProductCode.Location = new System.Drawing.Point(155, 241);
+            txtProductCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtProductCode.Name = "txtProductCode";
             txtProductCode.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtProductCode.Properties.Appearance.Options.UseFont = true;
             txtProductCode.Properties.ReadOnly = true;
-            txtProductCode.Size = new System.Drawing.Size(149, 38);
+            txtProductCode.Size = new System.Drawing.Size(134, 32);
             txtProductCode.StyleController = layoutControl3;
             txtProductCode.TabIndex = 2;
             // 
             // txtProductName
             // 
-            txtProductName.Location = new System.Drawing.Point(191, 265);
+            txtProductName.Location = new System.Drawing.Point(155, 205);
+            txtProductName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtProductName.Name = "txtProductName";
             txtProductName.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtProductName.Properties.Appearance.Options.UseFont = true;
             txtProductName.Properties.ReadOnly = true;
-            txtProductName.Size = new System.Drawing.Size(149, 38);
+            txtProductName.Size = new System.Drawing.Size(134, 32);
             txtProductName.StyleController = layoutControl3;
             txtProductName.TabIndex = 0;
             // 
             // txtTotalQuantity
             // 
-            txtTotalQuantity.Location = new System.Drawing.Point(191, 349);
+            txtTotalQuantity.Location = new System.Drawing.Point(155, 277);
+            txtTotalQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtTotalQuantity.Name = "txtTotalQuantity";
             txtTotalQuantity.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtTotalQuantity.Properties.Appearance.Options.UseFont = true;
             txtTotalQuantity.Properties.ReadOnly = true;
-            txtTotalQuantity.Size = new System.Drawing.Size(149, 38);
+            txtTotalQuantity.Size = new System.Drawing.Size(134, 32);
             txtTotalQuantity.StyleController = layoutControl3;
             txtTotalQuantity.TabIndex = 3;
             // 
             // txtTotalShippedQuantity
             // 
-            txtTotalShippedQuantity.Location = new System.Drawing.Point(191, 391);
+            txtTotalShippedQuantity.Location = new System.Drawing.Point(155, 313);
+            txtTotalShippedQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtTotalShippedQuantity.Name = "txtTotalShippedQuantity";
             txtTotalShippedQuantity.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtTotalShippedQuantity.Properties.Appearance.Options.UseFont = true;
             txtTotalShippedQuantity.Properties.ReadOnly = true;
-            txtTotalShippedQuantity.Size = new System.Drawing.Size(149, 38);
+            txtTotalShippedQuantity.Size = new System.Drawing.Size(134, 32);
             txtTotalShippedQuantity.StyleController = layoutControl3;
             txtTotalShippedQuantity.TabIndex = 4;
             // 
             // pictureEdit2
             // 
-            pictureEdit2.Location = new System.Drawing.Point(12, 12);
+            pictureEdit2.Location = new System.Drawing.Point(11, 10);
+            pictureEdit2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             pictureEdit2.Name = "pictureEdit2";
             pictureEdit2.Properties.PictureStoreMode = DevExpress.XtraEditors.Controls.PictureStoreMode.ByteArray;
             pictureEdit2.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             pictureEdit2.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
-            pictureEdit2.Size = new System.Drawing.Size(328, 249);
+            pictureEdit2.Size = new System.Drawing.Size(278, 191);
             pictureEdit2.StyleController = layoutControl3;
             pictureEdit2.TabIndex = 1;
             // 
             // txtDemandQuantity
             // 
-            txtDemandQuantity.Location = new System.Drawing.Point(191, 433);
+            txtDemandQuantity.Location = new System.Drawing.Point(155, 349);
+            txtDemandQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtDemandQuantity.Name = "txtDemandQuantity";
             txtDemandQuantity.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtDemandQuantity.Properties.Appearance.Options.UseFont = true;
             txtDemandQuantity.Properties.ReadOnly = true;
-            txtDemandQuantity.Size = new System.Drawing.Size(149, 38);
+            txtDemandQuantity.Size = new System.Drawing.Size(134, 32);
             txtDemandQuantity.StyleController = layoutControl3;
             txtDemandQuantity.TabIndex = 5;
             // 
             // txtWaitingQuantity
             // 
-            txtWaitingQuantity.Location = new System.Drawing.Point(191, 475);
+            txtWaitingQuantity.Location = new System.Drawing.Point(155, 385);
+            txtWaitingQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             txtWaitingQuantity.Name = "txtWaitingQuantity";
             txtWaitingQuantity.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             txtWaitingQuantity.Properties.Appearance.Options.UseFont = true;
             txtWaitingQuantity.Properties.ReadOnly = true;
-            txtWaitingQuantity.Size = new System.Drawing.Size(149, 38);
+            txtWaitingQuantity.Size = new System.Drawing.Size(134, 32);
             txtWaitingQuantity.StyleController = layoutControl3;
             txtWaitingQuantity.TabIndex = 6;
             // 
@@ -545,7 +566,7 @@
             layoutControlGroup2.GroupBordersVisible = false;
             layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] { layoutControlItem7, layoutControlItem6, layoutControlItem4, layoutControlItem3, layoutControlItem5, layoutControlItem8, layoutControlItem9 });
             layoutControlGroup2.Name = "layoutControlGroup2";
-            layoutControlGroup2.Size = new System.Drawing.Size(352, 525);
+            layoutControlGroup2.Size = new System.Drawing.Size(300, 427);
             layoutControlGroup2.TextVisible = false;
             // 
             // layoutControlItem7
@@ -553,7 +574,7 @@
             layoutControlItem7.Control = pictureEdit2;
             layoutControlItem7.Location = new System.Drawing.Point(0, 0);
             layoutControlItem7.Name = "layoutControlItem7";
-            layoutControlItem7.Size = new System.Drawing.Size(332, 253);
+            layoutControlItem7.Size = new System.Drawing.Size(282, 195);
             layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             layoutControlItem7.TextVisible = false;
             // 
@@ -562,66 +583,66 @@
             layoutControlItem6.AppearanceItemCaption.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             layoutControlItem6.AppearanceItemCaption.Options.UseFont = true;
             layoutControlItem6.Control = txtTotalShippedQuantity;
-            layoutControlItem6.Location = new System.Drawing.Point(0, 379);
+            layoutControlItem6.Location = new System.Drawing.Point(0, 303);
             layoutControlItem6.Name = "layoutControlItem6";
-            layoutControlItem6.Size = new System.Drawing.Size(332, 42);
+            layoutControlItem6.Size = new System.Drawing.Size(282, 36);
             layoutControlItem6.Text = "Kabul Edilen";
-            layoutControlItem6.TextSize = new System.Drawing.Size(167, 31);
+            layoutControlItem6.TextSize = new System.Drawing.Size(134, 25);
             // 
             // layoutControlItem4
             // 
             layoutControlItem4.AppearanceItemCaption.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             layoutControlItem4.AppearanceItemCaption.Options.UseFont = true;
             layoutControlItem4.Control = txtProductName;
-            layoutControlItem4.Location = new System.Drawing.Point(0, 253);
+            layoutControlItem4.Location = new System.Drawing.Point(0, 195);
             layoutControlItem4.Name = "layoutControlItem4";
-            layoutControlItem4.Size = new System.Drawing.Size(332, 42);
+            layoutControlItem4.Size = new System.Drawing.Size(282, 36);
             layoutControlItem4.Text = "Ürün Adı";
-            layoutControlItem4.TextSize = new System.Drawing.Size(167, 31);
+            layoutControlItem4.TextSize = new System.Drawing.Size(134, 25);
             // 
             // layoutControlItem3
             // 
             layoutControlItem3.AppearanceItemCaption.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             layoutControlItem3.AppearanceItemCaption.Options.UseFont = true;
             layoutControlItem3.Control = txtProductCode;
-            layoutControlItem3.Location = new System.Drawing.Point(0, 295);
+            layoutControlItem3.Location = new System.Drawing.Point(0, 231);
             layoutControlItem3.Name = "layoutControlItem3";
-            layoutControlItem3.Size = new System.Drawing.Size(332, 42);
+            layoutControlItem3.Size = new System.Drawing.Size(282, 36);
             layoutControlItem3.Text = "Ürün Kodu";
-            layoutControlItem3.TextSize = new System.Drawing.Size(167, 31);
+            layoutControlItem3.TextSize = new System.Drawing.Size(134, 25);
             // 
             // layoutControlItem5
             // 
             layoutControlItem5.AppearanceItemCaption.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             layoutControlItem5.AppearanceItemCaption.Options.UseFont = true;
             layoutControlItem5.Control = txtTotalQuantity;
-            layoutControlItem5.Location = new System.Drawing.Point(0, 337);
+            layoutControlItem5.Location = new System.Drawing.Point(0, 267);
             layoutControlItem5.Name = "layoutControlItem5";
-            layoutControlItem5.Size = new System.Drawing.Size(332, 42);
+            layoutControlItem5.Size = new System.Drawing.Size(282, 36);
             layoutControlItem5.Text = "Sipariş Miktarı";
-            layoutControlItem5.TextSize = new System.Drawing.Size(167, 31);
+            layoutControlItem5.TextSize = new System.Drawing.Size(134, 25);
             // 
             // layoutControlItem8
             // 
             layoutControlItem8.AppearanceItemCaption.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             layoutControlItem8.AppearanceItemCaption.Options.UseFont = true;
             layoutControlItem8.Control = txtDemandQuantity;
-            layoutControlItem8.Location = new System.Drawing.Point(0, 421);
+            layoutControlItem8.Location = new System.Drawing.Point(0, 339);
             layoutControlItem8.Name = "layoutControlItem8";
-            layoutControlItem8.Size = new System.Drawing.Size(332, 42);
+            layoutControlItem8.Size = new System.Drawing.Size(282, 36);
             layoutControlItem8.Text = "Talep Miktarı";
-            layoutControlItem8.TextSize = new System.Drawing.Size(167, 31);
+            layoutControlItem8.TextSize = new System.Drawing.Size(134, 25);
             // 
             // layoutControlItem9
             // 
             layoutControlItem9.AppearanceItemCaption.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             layoutControlItem9.AppearanceItemCaption.Options.UseFont = true;
             layoutControlItem9.Control = txtWaitingQuantity;
-            layoutControlItem9.Location = new System.Drawing.Point(0, 463);
+            layoutControlItem9.Location = new System.Drawing.Point(0, 375);
             layoutControlItem9.Name = "layoutControlItem9";
-            layoutControlItem9.Size = new System.Drawing.Size(332, 42);
+            layoutControlItem9.Size = new System.Drawing.Size(282, 36);
             layoutControlItem9.Text = "Bekleyen Miktar";
-            layoutControlItem9.TextSize = new System.Drawing.Size(167, 31);
+            layoutControlItem9.TextSize = new System.Drawing.Size(134, 25);
             // 
             // btnDecrement
             // 
@@ -632,9 +653,10 @@
             btnDecrement.Appearance.Options.UseFont = true;
             btnDecrement.Appearance.Options.UseForeColor = true;
             btnDecrement.Dock = System.Windows.Forms.DockStyle.Fill;
-            btnDecrement.Location = new System.Drawing.Point(3, 534);
+            btnDecrement.Location = new System.Drawing.Point(3, 433);
+            btnDecrement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             btnDecrement.Name = "btnDecrement";
-            btnDecrement.Size = new System.Drawing.Size(83, 67);
+            btnDecrement.Size = new System.Drawing.Size(70, 56);
             btnDecrement.TabIndex = 4;
             btnDecrement.Text = "-";
             btnDecrement.Visible = false;
@@ -647,9 +669,10 @@
             btnIncrement.Appearance.Options.UseBackColor = true;
             btnIncrement.Appearance.Options.UseFont = true;
             btnIncrement.Dock = System.Windows.Forms.DockStyle.Fill;
-            btnIncrement.Location = new System.Drawing.Point(271, 534);
+            btnIncrement.Location = new System.Drawing.Point(232, 433);
+            btnIncrement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             btnIncrement.Name = "btnIncrement";
-            btnIncrement.Size = new System.Drawing.Size(84, 67);
+            btnIncrement.Size = new System.Drawing.Size(71, 56);
             btnIncrement.TabIndex = 5;
             btnIncrement.Text = "+";
             btnIncrement.Visible = false;
@@ -657,12 +680,13 @@
             // 
             // PurchaseDispatchPreview
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1650, 872);
+            ClientSize = new System.Drawing.Size(1414, 708);
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             IsMdiContainer = true;
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "PurchaseDispatchPreview";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "PurchaseDispatchPreviewView";

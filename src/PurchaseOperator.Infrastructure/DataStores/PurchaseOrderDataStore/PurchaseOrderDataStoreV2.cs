@@ -41,6 +41,9 @@ public class PurchaseOrderDataStoreV2 : IPurchaseOrderService
 			[ShippedQuantity] = ORFLINE.SHIPPEDAMOUNT,
 			[WaitingQuantity] = (ORFLINE.AMOUNT - ORFLINE.SHIPPEDAMOUNT),
             [DemandQuantity] = ISNULL((SELECT SUM((AMOUNT - (MEETAMNT + CANCAMOUNT))) AS ONHAND FROM LG_{FirmNumber.ToString().PadLeft(3, '0')}_{PeriodNumber.ToString().PadLeft(2, '0')}_DEMANDLINE WITH(NOLOCK) WHERE ITEMREF = ITEMS.LOGICALREF AND STATUS <> 4),0),
+            [SupplyChainQuantity] = ISNULL((select SUM(SupplyChainDemandLine.RemainingQuantity) FROM [YTT.Portal].dbo.SupplyChainDemandLine AS SupplyChainDemandLine WITH(NOLOCK) 
+                LEFT JOIN [YTT.Portal].dbo.Product AS Product WITH(NOLOCK) ON SupplyChainDemandLine.Product = Product.Oid
+                WHERE SupplyChainDemandLine.GCRecord IS NULL AND Product.GCRecord IS NULL AND SupplyChainDemandLine.Status = 0 AND Product.ReferenceId = ITEMS.LOGICALREF),0),
 
 			[NetTotal] = ORFLINE.LINENET,
             [ManufactureCode] =ISNULL((SELECT TOP 1 SUPPASGN.ICUSTSUPCODE FROM LG_{FirmNumber.ToString().PadLeft(3, '0')}_SUPPASGN AS SUPPASGN WHERE SUPPASGN.CLIENTREF = CLCARD.LOGICALREF AND SUPPASGN.ITEMREF = ITEMS.LOGICALREF AND SUPPASGN.CLCARDTYPE = 1),'')

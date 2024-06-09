@@ -11,6 +11,7 @@ using PurchaseOperator.Win.ViewModels.PurchaseDispatchDetailViewModel;
 using PurchaseOperator.Win.ViewModels.PurchaseOrderListViewModel;
 using PurchaseOperator.Win.ViewModels.SupplierListViewModel;
 using PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews;
+using PurchaseOperator.Win.Views.MainMenuViews;
 using PurchaseOperator.Win.Views.PurchaseDispatchDetailViews;
 using PurchaseOperator.Win.Views.PurchaseOrderListViews;
 using System;
@@ -29,10 +30,7 @@ namespace PurchaseOperator.Win.Views.SupplierViews;
 public partial class SupplierListView : DevExpress.XtraEditors.XtraForm
 {
     private readonly SupplierListViewModel _viewModel;
-
-    public Supplier SelectedSupplier { get; set; }
     private readonly IServiceProvider _serviceProvider;
-    private Supplier selectedItem;
 
     public SupplierListView(SupplierListViewModel viewModel, IServiceProvider serviceProvider)
     {
@@ -47,7 +45,7 @@ public partial class SupplierListView : DevExpress.XtraEditors.XtraForm
 
     private void GridView1_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
     {
-        selectedItem = gridView1.GetFocusedRow() as Supplier;
+
     }
 
     public async Task LoadDataAsync()
@@ -112,17 +110,20 @@ public partial class SupplierListView : DevExpress.XtraEditors.XtraForm
 
     private async void windowsuıButtonPanelSupplierList_ButtonClick(object sender, DevExpress.XtraBars.Docking2010.ButtonEventArgs e)
     {
+        Supplier selectedItem = null;
+
         switch (e.Button.Properties.Caption)
         {
             case "İleri":
+
+                selectedItem = gridView1.GetFocusedRow() as Supplier;
                 if (selectedItem is not null)
                 {
-                    selectedItem = gridView1.GetFocusedRow() as Supplier;
                     PurchaseDispatchDetailViewModel purchaseDispatchDetailViewModel = _serviceProvider.GetService<PurchaseDispatchDetailViewModel>();
                     purchaseDispatchDetailViewModel.Supplier = selectedItem;
-                    PurchaseDispatchDetailView purchaseDispatchDetailView = _serviceProvider.GetService<PurchaseDispatchDetailView>();
+                    PurchaseDispatchDetailView purchaseDispatchDetailView = new PurchaseDispatchDetailView(purchaseDispatchDetailViewModel, _serviceProvider); //_serviceProvider.GetService<PurchaseDispatchDetailView>();
                     this.Hide();
-                    purchaseDispatchDetailView.ShowDialog();
+                    purchaseDispatchDetailView.Show();
                 }
                 else
                     MessageBox.Show("Lütfen tedarikçi seçiniz..", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -134,34 +135,26 @@ public partial class SupplierListView : DevExpress.XtraEditors.XtraForm
                 break;
 
             case "Özel Kabul":
+
+                selectedItem = gridView1.GetFocusedRow() as Supplier;
                 if (selectedItem is not null)
                 {
-                    selectedItem = gridView1.GetFocusedRow() as Supplier;
                     CustomPurchaseDispatchPreviewViewModel customPurchaseDispatchPreviewViewModel = _serviceProvider.GetService<CustomPurchaseDispatchPreviewViewModel>();
                     customPurchaseDispatchPreviewViewModel.Supplier = selectedItem;
                     CustomPurchaseDispatchPreviewView customPurchaseDispatchPreviewView = _serviceProvider.GetService<CustomPurchaseDispatchPreviewView>();
-                    
-                    customPurchaseDispatchPreviewView.ShowDialog();
+
+                    customPurchaseDispatchPreviewView.Show();
                 }
                 else
                     MessageBox.Show("Lütfen tedarikçi seçiniz..", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+
                 break;
 
-            case "Kapat":
-                FlyoutAction action = new FlyoutAction() { Caption = "Uyarı", Description = "Uygulama Kapatılacaktır. Devam etmek istiyor musunuz?" };
-                //Predicate<DialogResult> predicate = canCloseFunc;
-                FlyoutCommand command1 = new FlyoutCommand() { Text = "Uygulamayı Kapat", Result = DialogResult.Yes };
-                FlyoutCommand command2 = new FlyoutCommand() { Text = "Vazgeç", Result = System.Windows.Forms.DialogResult.No };
-                action.Commands.Add(command1);
-                action.Commands.Add(command2);
-                FlyoutProperties properties = new FlyoutProperties();
-                properties.ButtonSize = new Size(100, 40);
-                properties.Style = FlyoutStyle.MessageBox;
-                if (FlyoutDialog.Show(this, action, properties, predicate) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    System.Windows.Forms.Application.ExitThread();
-                }
-                else return;
+            case "Geri":
+                this.Close();
+                var mainMenuView = System.Windows.Forms.Application.OpenForms[nameof(MainMenuView)] as MainMenuView;
+                mainMenuView.Show();
                 break;
         }
     }
@@ -170,20 +163,6 @@ public partial class SupplierListView : DevExpress.XtraEditors.XtraForm
 
     private void SupplierListView_FormClosing(object sender, FormClosingEventArgs e)
     {
-        //FlyoutAction action = new FlyoutAction() { Caption = "Uyarı", Description = "Uygulama Kapatılacaktır. Devam etmek istiyor musunuz?" };
-        ////Predicate<DialogResult> predicate = canCloseFunc;
-        //FlyoutCommand command1 = new FlyoutCommand() { Text = "Uygulamayı Kapat", Result = DialogResult.Yes };
-        //FlyoutCommand command2 = new FlyoutCommand() { Text = "Vazgeç", Result = System.Windows.Forms.DialogResult.No };
-        //action.Commands.Add(command1);
-        //action.Commands.Add(command2);
-        //FlyoutProperties properties = new FlyoutProperties();
-        //properties.ButtonSize = new Size(100, 40);
-        //properties.Style = FlyoutStyle.MessageBox;
-        //if (FlyoutDialog.Show(this, action, properties, predicate) == System.Windows.Forms.DialogResult.Yes)
-        //{
-        //    e.Cancel = false;
-        //    System.Windows.Forms.Application.ExitThread();
-        //}
-        //else e.Cancel = true;
+
     }
 }

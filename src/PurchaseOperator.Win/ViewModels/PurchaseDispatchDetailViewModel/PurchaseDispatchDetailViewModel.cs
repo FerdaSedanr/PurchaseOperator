@@ -81,6 +81,7 @@ public class PurchaseDispatchDetailViewModel
                     dispatchItem.Name = item.ToList().First().ProductName;
                     dispatchItem.ManufactureCode = item.ToList().First().ManufactureCode;
                     dispatchItem.DemandQuantity = item.ToList().Sum(x => x.DemandQuantity);
+                    dispatchItem.SupplyChainQuantity = item.ToList().Sum(x=> x.SupplyChainQuantity);
                     dispatchItem.TotalQuantity = item.ToList().Sum(x => x.Quantity);
                     dispatchItem.TotalShippedQuantity = item.ToList().Sum(x => x.ShippedQuantity);
                     dispatchItem.TotalWaitingQuantity = item.ToList().Sum(x => x.WaitingQuantity);
@@ -116,6 +117,7 @@ public class PurchaseDispatchDetailViewModel
                     dispatchItem.ReferenceId = item.ToList().First().ReferenceId;
                     dispatchItem.Name = item.ToList().First().ProductName;
                     dispatchItem.DemandQuantity = item.ToList().Sum(x => x.DemandQuantity);
+                    dispatchItem.SupplyChainQuantity = item.ToList().Sum(x => x.SupplyChainQuantity);
                     dispatchItem.TotalQuantity = item.ToList().Sum(x => x.Quantity);
                     dispatchItem.TotalShippedQuantity = item.ToList().Sum(x => x.ShippedQuantity);
                     dispatchItem.TotalWaitingQuantity = item.ToList().Sum(x => x.WaitingQuantity);

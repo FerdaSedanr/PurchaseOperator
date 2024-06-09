@@ -59,26 +59,28 @@
             tableLayoutPanel1.Controls.Add(gridControl1, 0, 1);
             tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(1526, 867);
+            tableLayoutPanel1.Size = new System.Drawing.Size(1308, 704);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // pictureEdit1
             // 
             pictureEdit1.Dock = System.Windows.Forms.DockStyle.Fill;
             pictureEdit1.EditValue = resources.GetObject("pictureEdit1.EditValue");
-            pictureEdit1.Location = new System.Drawing.Point(3, 3);
+            pictureEdit1.Location = new System.Drawing.Point(3, 2);
+            pictureEdit1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             pictureEdit1.Name = "pictureEdit1";
             pictureEdit1.Properties.Appearance.BackColor = System.Drawing.Color.White;
             pictureEdit1.Properties.Appearance.Options.UseBackColor = true;
             pictureEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             pictureEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             pictureEdit1.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-            pictureEdit1.Size = new System.Drawing.Size(375, 124);
+            pictureEdit1.Size = new System.Drawing.Size(321, 101);
             pictureEdit1.TabIndex = 0;
             // 
             // windowsuıButtonPanelSupplierList
@@ -108,12 +110,13 @@
             windowsuıButtonImageOptions2.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions2.Image");
             windowsuıButtonImageOptions3.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions3.Image");
             windowsuıButtonImageOptions4.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions4.Image");
-            windowsuıButtonPanelSupplierList.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] { new DevExpress.XtraBars.Docking2010.WindowsUIButton("Kapat", true, windowsuıButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Özel Kabul", true, windowsuıButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Yenile", true, windowsuıButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("İleri", true, windowsuıButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false) });
+            windowsuıButtonPanelSupplierList.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] { new DevExpress.XtraBars.Docking2010.WindowsUIButton("Geri", true, windowsuıButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Özel Kabul", true, windowsuıButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Yenile", true, windowsuıButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("İleri", true, windowsuıButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false) });
             tableLayoutPanel1.SetColumnSpan(windowsuıButtonPanelSupplierList, 3);
             windowsuıButtonPanelSupplierList.Dock = System.Windows.Forms.DockStyle.Fill;
-            windowsuıButtonPanelSupplierList.Location = new System.Drawing.Point(3, 739);
+            windowsuıButtonPanelSupplierList.Location = new System.Drawing.Point(3, 599);
+            windowsuıButtonPanelSupplierList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             windowsuıButtonPanelSupplierList.Name = "windowsuıButtonPanelSupplierList";
-            windowsuıButtonPanelSupplierList.Size = new System.Drawing.Size(1520, 125);
+            windowsuıButtonPanelSupplierList.Size = new System.Drawing.Size(1302, 103);
             windowsuıButtonPanelSupplierList.TabIndex = 1;
             windowsuıButtonPanelSupplierList.Text = "windowsuıButtonPanel1";
             windowsuıButtonPanelSupplierList.ButtonClick += windowsuıButtonPanelSupplierList_ButtonClick;
@@ -122,10 +125,12 @@
             // 
             tableLayoutPanel1.SetColumnSpan(gridControl1, 3);
             gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridControl1.Location = new System.Drawing.Point(3, 133);
+            gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            gridControl1.Location = new System.Drawing.Point(3, 107);
             gridControl1.MainView = gridView1;
+            gridControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             gridControl1.Name = "gridControl1";
-            gridControl1.Size = new System.Drawing.Size(1520, 600);
+            gridControl1.Size = new System.Drawing.Size(1302, 488);
             gridControl1.TabIndex = 2;
             gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] { gridView1 });
             // 
@@ -140,6 +145,7 @@
             gridView1.Appearance.Row.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             gridView1.Appearance.Row.Options.UseFont = true;
             gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { gridColumn2, gridColumn3, gridColumn4 });
+            gridView1.DetailHeight = 284;
             gridView1.GridControl = gridControl1;
             gridView1.Name = "gridView1";
             gridView1.OptionsBehavior.Editable = false;
@@ -152,34 +158,34 @@
             // 
             gridColumn2.Caption = "Tedarikçi Adı";
             gridColumn2.FieldName = "Name";
-            gridColumn2.MinWidth = 25;
+            gridColumn2.MinWidth = 21;
             gridColumn2.Name = "gridColumn2";
             gridColumn2.OptionsColumn.ReadOnly = true;
             gridColumn2.Visible = true;
             gridColumn2.VisibleIndex = 0;
-            gridColumn2.Width = 373;
+            gridColumn2.Width = 320;
             // 
             // gridColumn3
             // 
             gridColumn3.Caption = "İl";
             gridColumn3.FieldName = "City";
-            gridColumn3.MinWidth = 25;
+            gridColumn3.MinWidth = 21;
             gridColumn3.Name = "gridColumn3";
             gridColumn3.OptionsColumn.ReadOnly = true;
             gridColumn3.Visible = true;
             gridColumn3.VisibleIndex = 1;
-            gridColumn3.Width = 257;
+            gridColumn3.Width = 220;
             // 
             // gridColumn4
             // 
             gridColumn4.Caption = "İlçe";
             gridColumn4.FieldName = "County";
-            gridColumn4.MinWidth = 25;
+            gridColumn4.MinWidth = 21;
             gridColumn4.Name = "gridColumn4";
             gridColumn4.OptionsColumn.ReadOnly = true;
             gridColumn4.Visible = true;
             gridColumn4.VisibleIndex = 2;
-            gridColumn4.Width = 261;
+            gridColumn4.Width = 224;
             // 
             // splashScreenManager1
             // 
@@ -189,11 +195,12 @@
             // 
             Appearance.BackColor = System.Drawing.Color.White;
             Appearance.Options.UseBackColor = true;
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1526, 867);
+            ClientSize = new System.Drawing.Size(1308, 704);
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "SupplierListView";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "SupplierListView";
