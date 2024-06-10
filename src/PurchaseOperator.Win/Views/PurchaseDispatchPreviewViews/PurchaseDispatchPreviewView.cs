@@ -34,45 +34,35 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
     public partial class PurchaseDispatchPreview : DevExpress.XtraEditors.XtraForm
     {
         public PurchaseDispatchPreviewViewModel _viewModel;
-        private IAuthenticatePortalService _authenticatePortalService;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IConfiguration _configuration;
-        private readonly IPortalProductService _portalProductService;
-        private readonly ICustomerService _customerService;
-        private IHttpClientFactory _httpClientFactory;
-        private IQCNotificationService _notificationService;
-        private IQCNotificationDetailService _notificationDetailService;
-        private ISubUnitsetService _subUnitsetService;
-        private HttpClient httpClient;
 
-        public PurchaseDispatchPreview(PurchaseDispatchPreviewViewModel viewModel, IServiceProvider serviceProvider, IConfiguration configuration, IPortalProductService portalProductService, ICustomerService customerService, IHttpClientFactory httpClientFactory, IAuthenticatePortalService authenticatePortalService, IQCNotificationService qCNotificationService, IQCNotificationDetailService qCNotificationDetailService, ISubUnitsetService subUnitsetService)
+        //private IAuthenticatePortalService _authenticatePortalService;        
+        //private readonly IConfiguration _configuration;
+        //private readonly IPortalProductService _portalProductService;
+        //private readonly ICustomerService _customerService;
+        //private IHttpClientFactory _httpClientFactory;
+        //private IQCNotificationService _notificationService;
+        //private IQCNotificationDetailService _notificationDetailService;
+        //private ISubUnitsetService _subUnitsetService;
+        //private HttpClient httpClient;
+
+        public PurchaseDispatchPreview(PurchaseDispatchPreviewViewModel viewModel, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _viewModel = viewModel;
             gridControl1.DataSource = _viewModel.Items;
             _serviceProvider = serviceProvider;
-            _configuration = configuration;
-            _portalProductService = portalProductService;
-            _customerService = customerService;
-            _authenticatePortalService = authenticatePortalService;
-            _notificationService = qCNotificationService;
-            _notificationDetailService = qCNotificationDetailService;
-            _subUnitsetService = subUnitsetService;
-            _httpClientFactory = httpClientFactory;
+            //_configuration = configuration;
+            //_portalProductService = portalProductService;
+            //_customerService = customerService;
+            //_authenticatePortalService = authenticatePortalService;
+            //_notificationService = qCNotificationService;
+            //_notificationDetailService = qCNotificationDetailService;
+            //_subUnitsetService = subUnitsetService;
+            //_httpClientFactory = httpClientFactory;
         }
 
-        private async Task AuthenticateAsync()
-        {
-            if (httpClient is null)
-            {
-                httpClient = _httpClientFactory.CreateClient("Portal");
-                var token = await _authenticatePortalService.AuthenticateAsync(httpClient, _configuration["PortalAuthenticateInformation:UserName"], _configuration["PortalAuthenticateInformation:Password"]);
-                if (!string.IsNullOrEmpty(token))
-                {
-                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-                }
-            }
-        }
+
 
         private void PurchaseDispatchPreviewView_Load(object sender, EventArgs e)
         {
@@ -95,14 +85,11 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
                 txtDemandQuantity.Text = focusedItem?.DemandQuantity.ToString();
                 txtWaitingQuantity.Text = focusedItem.TotalWaitingQuantity.ToString();
 
-                string filter = $"?$filter=ReferenceId eq {focusedItem.ReferenceId}";
-                if (httpClient is not null)
+                var portalProduct = await _viewModel.GetProductAsync(focusedItem.ReferenceId);
+
+                if (portalProduct != null)
                 {
-                    var portalProduct = await _portalProductService.GetObjectsAsync(httpClient, filter);
-                    if (portalProduct != null)
-                    {
-                        pictureEdit2.EditValue = portalProduct.FirstOrDefault()?.MainImage;
-                    }
+                    pictureEdit2.EditValue = portalProduct.MainImage;
                 }
             }
         }
@@ -124,7 +111,7 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
                     properties.Style = FlyoutStyle.MessageBox;
                     if (FlyoutDialog.Show(this, action, properties) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        PurchaseDispatchDetailView purchaseDispatchDetailView = (PurchaseDispatchDetailView)System.Windows.Forms.Application.OpenForms[nameof(PurchaseDispatchDetailView)];
+                        PurchaseDispatchProductView purchaseDispatchDetailView = (PurchaseDispatchProductView)System.Windows.Forms.Application.OpenForms[nameof(PurchaseDispatchProductView)];
 
                         var selectedRows = ((GridView)purchaseDispatchDetailView.gridControl1.Views[0]).GetSelectedRows();
 
@@ -177,7 +164,7 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
                     confirmViewModel.Items.AddRange(_viewModel.Items);
                     confirmViewModel.Supplier = _viewModel.Supplier;
                     confirmViewModel.TargetObjectType = 2;
-                    ConfirmView confirmView = _serviceProvider.GetService<ConfirmView>();
+                    ConfirmView confirmView = new ConfirmView(confirmViewModel); //_serviceProvider.GetService<ConfirmView>();
                     confirmView.ShowDialog();
 
                     break;
@@ -188,7 +175,7 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
                     productListViewModel.TargetObjectType = 2;
                     productListViewModel.Items.ForEach(x => x.Quantity = 1);
 
-                    ProductListView productListView = _serviceProvider.GetService<ProductListView>();
+                    ProductListView productListView = new ProductListView(productListViewModel, _serviceProvider); // _serviceProvider.GetService<ProductListView>();
                     productListView.ShowDialog();
                     break;
 
@@ -237,149 +224,151 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
         {
         }
 
-        private async void PurchaseDispatchPreviewView_Activated(object sender, EventArgs e)
+        private void PurchaseDispatchPreviewView_Activated(object sender, EventArgs e)
         {
-            await AuthenticateAsync();
+            //await AuthenticateAsync();
         }
 
+        [Obsolete]
         private async Task CreateDispatch()
         {
-            PurchaseDispatchTransactionDto dto = new();
-            dto.WarehouseNumber = int.Parse(_configuration.GetSection("DefaultERP")["Warehouse"]);
-            dto.CurrentCode = _viewModel.Supplier.Code;
-            var owner = Guid.NewGuid();
-            dto.Owner = owner;
-            dto.TransactionType = 1;
-            dto.IOType = 1;
-            dto.GroupType = 1;
-            dto.IsEDispatch = _viewModel.Supplier.DispatchType;
+            //PurchaseDispatchTransactionDto dto = new();
+            //dto.WarehouseNumber = 1;
+            //dto.CurrentCode = _viewModel.Supplier.Code;
+            //var owner = Guid.NewGuid();
+            //dto.Owner = owner;
+            //dto.TransactionType = 1;
+            //dto.IOType = 1;
+            //dto.GroupType = 1;
+            //dto.IsEDispatch = _viewModel.Supplier.DispatchType;
 
-            foreach (var item in _viewModel.Items)
-            {
-                var remainingQuantity = item.CustomQuantity;
-                foreach (var line in item.Lines.OrderBy(x => x.Date))
-                {
-                    if (remainingQuantity > 0)
-                    {
-                        if ((remainingQuantity - line.WaitingQuantity) < 0)
-                        {
-                            var lineDto = new PurchaseDispatchTransactionLineDto()
-                            {
-                                WarehouseNumber = int.Parse(_configuration.GetSection("DefaultERP")["Warehouse"]),
-                                ProductCode = line.ProductCode,
-                                UnitsetCode = line.SubUnitsetCode,
-                                SubUnitsetReferenceId = line.SubUnitsetReferenceId,
-                                SubUnitsetCode = line.SubUnitsetCode,
-                                CurrentCode = line.CurrentCode,
-                                IOType = 1,
-                                Description = line.Description,
-                                Quantity = remainingQuantity,
-                                ConversionFactor = remainingQuantity,
-                                OtherConversionFactor = remainingQuantity,
-                                TransactionDate = DateTime.Now,
-                                UnitPrice = line.UnitPrice,
-                                TransactionType = 1,
-                                VatRate = line.VatRate,
-                                OrderReferenceId = line.ReferenceId
-                            };
-                            lineDto.SeriLotTransactions.Add(new()
-                            {
-                                WarehouseNumber = int.Parse(_configuration.GetSection("DefaultERP")["Warehouse"]),
-                                Quantity = remainingQuantity,
-                                Date = DateTime.Now,
-                                IOCode = 1,
-                                StockLocationCode = _configuration.GetSection("DefaultERP")["Location"],
-                                ConversionFactor = (double)remainingQuantity,
-                                OtherConversionFactor = (double)remainingQuantity,
-                            });
+            //foreach (var item in _viewModel.Items)
+            //{
+            //    var remainingQuantity = item.CustomQuantity;
+            //    foreach (var line in item.Lines.OrderBy(x => x.Date))
+            //    {
+            //        if (remainingQuantity > 0)
+            //        {
+            //            if ((remainingQuantity - line.WaitingQuantity) < 0)
+            //            {
+            //                var lineDto = new PurchaseDispatchTransactionLineDto()
+            //                {
+            //                    WarehouseNumber = int.Parse(_configuration.GetSection("DefaultERP")["Warehouse"]),
+            //                    ProductCode = line.ProductCode,
+            //                    UnitsetCode = line.SubUnitsetCode,
+            //                    SubUnitsetReferenceId = line.SubUnitsetReferenceId,
+            //                    SubUnitsetCode = line.SubUnitsetCode,
+            //                    CurrentCode = line.CurrentCode,
+            //                    IOType = 1,
+            //                    Description = line.Description,
+            //                    Quantity = remainingQuantity,
+            //                    ConversionFactor = remainingQuantity,
+            //                    OtherConversionFactor = remainingQuantity,
+            //                    TransactionDate = DateTime.Now,
+            //                    UnitPrice = line.UnitPrice,
+            //                    TransactionType = 1,
+            //                    VatRate = line.VatRate,
+            //                    OrderReferenceId = line.ReferenceId
+            //                };
+            //                lineDto.SeriLotTransactions.Add(new SeriLotTransactionDto(
+            //                    StockLocationCode : _configuration.GetSection("DefaultERP")["Location"],
+            //                    DestinationStockLocationCode : _configuration.GetSection("DefaultERP")["Location"],
+            //                    InProductTransactionLineReferenceId : 0,
+            //                    OutProductTransactionLineReferenceId : 0,
+            //                    SerilotType:0,
+            //                    Quantity:remainingQuantity,
+            //                    SubUnitsetCode:line.SubUnitsetCode,
+            //                    ConversionFactor:1,
+            //                    OtherConversionFactor:1));
 
-                            dto.Lines.Add(lineDto);
-                            remainingQuantity = 0;
-                        }
-                        else
-                        {
-                            var lineDto = new PurchaseDispatchTransactionLineDto()
-                            {
-                                WarehouseNumber = int.Parse(_configuration.GetSection("DefaultERP")["Warehouse"]),
-                                ProductCode = line.ProductCode,
-                                UnitsetCode = line.SubUnitsetCode,
-                                SubUnitsetReferenceId = line.SubUnitsetReferenceId,
-                                SubUnitsetCode = line.SubUnitsetCode,
-                                CurrentCode = line.CurrentCode,
-                                IOType = 1,
-                                Description = line.Description,
-                                //remaninig alanını ekledim
-                                Quantity = line.Quantity - line.ShippedQuantity,
-                                ConversionFactor = line.Quantity - line.ShippedQuantity,
-                                OtherConversionFactor = line.Quantity - line.ShippedQuantity,
-                                TransactionDate = DateTime.Now,
-                                UnitPrice = line.UnitPrice,
-                                TransactionType = 1,
-                                VatRate = line.VatRate,
-                                OrderReferenceId = line.ReferenceId
-                            };
-                            lineDto.SeriLotTransactions.Add(new()
-                            {
-                                WarehouseNumber = int.Parse(_configuration.GetSection("DefaultERP")["Warehouse"]),
-                                Quantity = line.Quantity - line.ShippedQuantity,
-                                Date = DateTime.Now,
-                                IOCode = 1,
-                                StockLocationCode = _configuration.GetSection("DefaultERP")["Location"],
-                                ConversionFactor = line.Quantity - line.ShippedQuantity,
-                                OtherConversionFactor = line.Quantity - line.ShippedQuantity,
-                            });
+            //                dto.Lines.Add(lineDto);
+            //                remainingQuantity = 0;
+            //            }
+            //            else
+            //            {
+            //                var lineDto = new PurchaseDispatchTransactionLineDto()
+            //                {
+            //                    WarehouseNumber = int.Parse(_configuration.GetSection("DefaultERP")["Warehouse"]),
+            //                    ProductCode = line.ProductCode,
+            //                    UnitsetCode = line.SubUnitsetCode,
+            //                    SubUnitsetReferenceId = line.SubUnitsetReferenceId,
+            //                    SubUnitsetCode = line.SubUnitsetCode,
+            //                    CurrentCode = line.CurrentCode,
+            //                    IOType = 1,
+            //                    Description = line.Description,
+            //                    //remaninig alanını ekledim
+            //                    Quantity = line.Quantity - line.ShippedQuantity,
+            //                    ConversionFactor = line.Quantity - line.ShippedQuantity,
+            //                    OtherConversionFactor = line.Quantity - line.ShippedQuantity,
+            //                    TransactionDate = DateTime.Now,
+            //                    UnitPrice = line.UnitPrice,
+            //                    TransactionType = 1,
+            //                    VatRate = line.VatRate,
+            //                    OrderReferenceId = line.ReferenceId
+            //                };
 
-                            dto.Lines.Add(lineDto);
-                            remainingQuantity -= (double)line.Quantity;
-                        }
-                    }
-                }
-            }
+            //                lineDto.SeriLotTransactions.Add(new SeriLotTransactionDto(                            
+            //                    StockLocationCode : _configuration.GetSection("DefaultERP")["Location"],
+            //                    DestinationStockLocationCode : string.Empty,
+            //                    InProductTransactionLineReferenceId : 0,
+            //                    OutProductTransactionLineReferenceId : 0,
+            //                    SerilotType:0,
+            //                    Quantity:Convert.ToDouble(line.Quantity - line.ShippedQuantity),
+            //                    SubUnitsetCode:line.SubUnitsetCode,
+            //                    ConversionFactor:1,
+            //                    OtherConversionFactor:1));
 
-            await _viewModel.CreatePurchaseDispatch(dto);
+            //                dto.Lines.Add(lineDto);
+            //                remainingQuantity -= (double)line.Quantity;
+            //            }
+            //        }
+            //    }
+            //}
 
-            string dispatchNumber = string.Empty;
-            //var data = _notifyService get Notification
-            var httpClientService = _httpClientFactory.CreateClient("LBS");
-            var data = await new NotificationResultHelper<PurchaseDispatchTransactionDto>().GetNotification(httpClientService, dto.Owner);
-            if (data.IsSuccess)
-            {
-                dispatchNumber = data.Data.Code;
-                string customerFilter = $"?$filter=ReferenceId eq {_viewModel.Supplier.ReferenceId}";
-                var customer = await _customerService.GetObjectsAsync(httpClient, customerFilter);
-                if (customer is not null)
-                {
-                    var qcNotificationResult = await _notificationService.InsertObjectAsync(httpClient, new QCNotificationDto(DateTime.Now, dispatchNumber, 0, customer.FirstOrDefault().Oid));
-                    if (qcNotificationResult is not null)
-                    {
-                        foreach (var item in dto.Lines)
-                        {
-                            var product = await _portalProductService.GetObjectsAsync(httpClient, $"?$filter=Code eq '{item.ProductCode}'");
-                            var subUnitset = await _subUnitsetService.GetObjectsAsync(httpClient, $"?$filter=ReferenceId eq {item.SubUnitsetReferenceId}");
-                            if (product.Any() && subUnitset.Any())
-                            {
-                                QCNotificationDetailDto detailDto = new QCNotificationDetailDto(Guid.Parse(qcNotificationResult.Oid), product.FirstOrDefault().Oid, subUnitset.FirstOrDefault().Oid, (double)item.Quantity);
-                                await _notificationDetailService.InsertObjectAsync(httpClient, detailDto);
-                            }
-                        }
+            //await _viewModel.CreatePurchaseDispatch(dto);
 
-                        this.Close();
-                        SupplierListView supplierListView = System.Windows.Forms.Application.OpenForms[nameof(SupplierListView)] as SupplierListView;
-                        if (supplierListView is not null)
-                        {
-                            PurchaseDispatchDetailView purchaseDispatchDetailView = System.Windows.Forms.Application.OpenForms[nameof(PurchaseDispatchDetailView)] as PurchaseDispatchDetailView;
-                            if (purchaseDispatchDetailView is not null)
-                                purchaseDispatchDetailView.Close();
+            //string dispatchNumber = string.Empty;
+            ////var data = _notifyService get Notification
+            //var httpClientService = _httpClientFactory.CreateClient("LBS");
+            //var data = await new NotificationResultHelper<PurchaseDispatchTransactionDto>().GetNotification(httpClientService, dto.Owner);
+            //if (data.IsSuccess)
+            //{
+            //    dispatchNumber = data.Data.Code;
+            //    string customerFilter = $"?$filter=ReferenceId eq {_viewModel.Supplier.ReferenceId}";
+            //    var customer = await _customerService.GetObjectsAsync(httpClient, customerFilter);
+            //    if (customer is not null)
+            //    {
+            //        var qcNotificationResult = await _notificationService.InsertObjectAsync(httpClient, new QCNotificationDto(DateTime.Now, dispatchNumber, 0, customer.FirstOrDefault().Oid));
+            //        if (qcNotificationResult is not null)
+            //        {
+            //            foreach (var item in dto.Lines)
+            //            {
+            //                var product = await _portalProductService.GetObjectsAsync(httpClient, $"?$filter=Code eq '{item.ProductCode}'");
+            //                var subUnitset = await _subUnitsetService.GetObjectsAsync(httpClient, $"?$filter=ReferenceId eq {item.SubUnitsetReferenceId}");
+            //                if (product.Any() && subUnitset.Any())
+            //                {
+            //                    QCNotificationDetailDto detailDto = new QCNotificationDetailDto(Guid.Parse(qcNotificationResult.Oid), product.FirstOrDefault().Oid, subUnitset.FirstOrDefault().Oid, (double)item.Quantity);
+            //                    await _notificationDetailService.InsertObjectAsync(httpClient, detailDto);
+            //                }
+            //            }
 
-                            supplierListView.Show();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                XtraMessageBox.Show(data.Message);
-            }
+            //            this.Close();
+            //            SupplierListView supplierListView = System.Windows.Forms.Application.OpenForms[nameof(SupplierListView)] as SupplierListView;
+            //            if (supplierListView is not null)
+            //            {
+            //                PurchaseDispatchProductView purchaseDispatchDetailView = System.Windows.Forms.Application.OpenForms[nameof(PurchaseDispatchProductView)] as PurchaseDispatchProductView;
+            //                if (purchaseDispatchDetailView is not null)
+            //                    purchaseDispatchDetailView.Close();
+
+            //                supplierListView.Show();
+            //            }
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    XtraMessageBox.Show(data.Message);
+            //}
         }
 
         private void btnIncrement_Click(object sender, EventArgs e)

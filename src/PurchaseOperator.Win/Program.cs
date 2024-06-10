@@ -9,6 +9,7 @@ using PurchaseOperator.Application.Services.OperatorService;
 using PurchaseOperator.Application.Services.PortalProductServices;
 using PurchaseOperator.Application.Services.PurchaseDispatchService;
 using PurchaseOperator.Application.Services.PurchaseOrderService;
+using PurchaseOperator.Application.Services.PurchaseReturnDispatchService;
 using PurchaseOperator.Application.Services.QCNotificationDetailService;
 using PurchaseOperator.Application.Services.QCNotificationService;
 using PurchaseOperator.Application.Services.SupplierService;
@@ -22,6 +23,7 @@ using PurchaseOperator.Infrastructure.DataStores.OperatorDataStore;
 using PurchaseOperator.Infrastructure.DataStores.PortalProductDataStore;
 using PurchaseOperator.Infrastructure.DataStores.PurchaseDispatchDataStore;
 using PurchaseOperator.Infrastructure.DataStores.PurchaseOrderDataStore;
+using PurchaseOperator.Infrastructure.DataStores.PurchaseReturnDispatchDataStores;
 using PurchaseOperator.Infrastructure.DataStores.QCNotificationDataStores;
 using PurchaseOperator.Infrastructure.DataStores.QCNotificationDetailDataStores;
 using PurchaseOperator.Infrastructure.DataStores.SubUnitsetDataStore;
@@ -95,6 +97,7 @@ internal static class Program
             services.AddTransient<ISubUnitsetService, SubUnitsetDataStore>();
             services.AddTransient<ILogoProductService, LogoProductDataStore>();
             services.AddTransient<IPurchaseDispatchLineService, PurchaseDispatchLineDataStore>();
+            services.AddTransient<IPurchaseReturnDispatchService, PurchaseReturnDispatchDataStore>();
 
             services.AddTransient<LoginViewModel>();
             services.AddTransient<LoginView>();
@@ -104,8 +107,8 @@ internal static class Program
             services.AddTransient<SupplierListView>();
             services.AddTransient<PurchaseOrderListViewModel>();
             services.AddTransient<PurchaseOrderListView>();
-            services.AddScoped<PurchaseDispatchDetailViewModel>();
-            services.AddScoped<PurchaseDispatchDetailView>();
+            services.AddTransient<PurchaseDispatchProductViewModel>();
+            //services.AddScoped<PurchaseDispatchProductView>();
             services.AddTransient<PurchaseDispatchPreviewViewModel>();
             services.AddTransient<PurchaseDispatchPreview>();
             services.AddTransient<CustomPurchaseDispatchPreviewViewModel>();

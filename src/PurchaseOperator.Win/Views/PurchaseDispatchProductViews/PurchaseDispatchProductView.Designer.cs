@@ -1,6 +1,6 @@
 ﻿namespace PurchaseOperator.Win.Views.PurchaseDispatchDetailViews
 {
-    partial class PurchaseDispatchDetailView
+    partial class PurchaseDispatchProductView
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PurchaseDispatchDetailView));
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions7 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions8 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions9 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions10 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions11 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
-            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions12 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PurchaseDispatchProductView));
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions2 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions3 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions4 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions5 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
+            DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions windowsuıButtonImageOptions6 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonImageOptions();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             pictureEdit1 = new DevExpress.XtraEditors.PictureEdit();
             windowsuıButtonPanel1 = new DevExpress.XtraBars.Docking2010.WindowsUIButtonPanel();
@@ -113,13 +113,13 @@
             windowsuıButtonPanel1.AppearanceButton.Pressed.Options.UseFont = true;
             windowsuıButtonPanel1.AppearanceButton.Pressed.Options.UseForeColor = true;
             windowsuıButtonPanel1.BackColor = System.Drawing.Color.FromArgb(227, 6, 19);
-            windowsuıButtonImageOptions7.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions7.Image");
-            windowsuıButtonImageOptions8.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions8.Image");
-            windowsuıButtonImageOptions9.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions9.Image");
-            windowsuıButtonImageOptions10.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions10.Image");
-            windowsuıButtonImageOptions11.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions11.Image");
-            windowsuıButtonImageOptions12.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions12.Image");
-            windowsuıButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] { new DevExpress.XtraBars.Docking2010.WindowsUIButton("Geri", true, windowsuıButtonImageOptions7, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Siparişler", true, windowsuıButtonImageOptions8, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Yenile", true, windowsuıButtonImageOptions9, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Aşağı", true, windowsuıButtonImageOptions10, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Yukarı", true, windowsuıButtonImageOptions11, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("İleri", true, windowsuıButtonImageOptions12, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false) });
+            windowsuıButtonImageOptions1.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions1.Image");
+            windowsuıButtonImageOptions2.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions2.Image");
+            windowsuıButtonImageOptions3.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions3.Image");
+            windowsuıButtonImageOptions4.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions4.Image");
+            windowsuıButtonImageOptions5.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions5.Image");
+            windowsuıButtonImageOptions6.Image = (System.Drawing.Image)resources.GetObject("windowsuıButtonImageOptions6.Image");
+            windowsuıButtonPanel1.Buttons.AddRange(new DevExpress.XtraEditors.ButtonPanel.IBaseButton[] { new DevExpress.XtraBars.Docking2010.WindowsUIButton("Geri", true, windowsuıButtonImageOptions1, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Siparişler", true, windowsuıButtonImageOptions2, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Yenile", true, windowsuıButtonImageOptions3, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Aşağı", true, windowsuıButtonImageOptions4, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUIButton("Yukarı", true, windowsuıButtonImageOptions5, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false), new DevExpress.XtraBars.Docking2010.WindowsUISeparator(), new DevExpress.XtraBars.Docking2010.WindowsUIButton("İleri", true, windowsuıButtonImageOptions6, DevExpress.XtraBars.Docking2010.ButtonStyle.PushButton, "", -1, true, null, true, false, true, null, -1, false) });
             tableLayoutPanel1.SetColumnSpan(windowsuıButtonPanel1, 3);
             windowsuıButtonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             windowsuıButtonPanel1.Location = new System.Drawing.Point(3, 625);
@@ -288,7 +288,7 @@
             // 
             splashScreenManager1.ClosingDelay = 500;
             // 
-            // PurchaseDispatchDetailView
+            // PurchaseDispatchProductView
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -296,7 +296,7 @@
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            Name = "PurchaseDispatchDetailView";
+            Name = "PurchaseDispatchProductView";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "PurchaseDispatchDetailView";
             WindowState = System.Windows.Forms.FormWindowState.Maximized;

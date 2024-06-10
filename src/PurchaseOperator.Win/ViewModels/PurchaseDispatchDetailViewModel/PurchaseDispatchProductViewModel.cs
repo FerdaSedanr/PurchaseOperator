@@ -19,9 +19,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace PurchaseOperator.Win.ViewModels.PurchaseDispatchDetailViewModel;
 
-public class PurchaseDispatchDetailViewModel
+public class PurchaseDispatchProductViewModel
 {
-    private ILogger<PurchaseDispatchDetailViewModel> _logger;
+    private ILogger<PurchaseDispatchProductViewModel> _logger;
     private IHttpClientFactory _httpClientFactory;
     private IAuthenticateLBSService _authenticateLBSService;
     private IPurchaseOrderService _purchaseOrderService;
@@ -32,7 +32,7 @@ public class PurchaseDispatchDetailViewModel
     public int FirmNumber { get; set; }
     public int PeriodNumber { get; set; }
 
-    public PurchaseDispatchDetailViewModel(IHttpClientFactory httpClientFactory, IAuthenticateLBSService authenticateLBSService, IPurchaseOrderService purchaseOrderService, ILogger<PurchaseDispatchDetailViewModel> logger, IConfiguration configuration)
+    public PurchaseDispatchProductViewModel(IHttpClientFactory httpClientFactory, IAuthenticateLBSService authenticateLBSService, IPurchaseOrderService purchaseOrderService, ILogger<PurchaseDispatchProductViewModel> logger, IConfiguration configuration)
     {
         _httpClientFactory = httpClientFactory;
         _authenticateLBSService = authenticateLBSService;
