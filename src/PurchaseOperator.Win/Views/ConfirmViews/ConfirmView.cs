@@ -56,7 +56,24 @@ public partial class ConfirmView : DevExpress.XtraEditors.XtraForm
             {
                 var dataResult = await _viewModel.InsertPurchaseDispatchAsync(dto).WaitAsync(cancellationTokenSource.Token);
                 if (dataResult.IsSuccess)
-                    await _viewModel.InsertQCNotificationAsync(dataResult.Data.Code, dto);
+                {
+                    //Fazla ürünler varsa
+                    if (_viewModel.ExcessItems.Count > 0)
+                    {
+                        var excessDTO = await _viewModel.CreateDispatchDTOAsync(_viewModel.ExcessItems, textEdit1.Text, (DateTime)dateEdit1.EditValue).WaitAsync(cancellationTokenSource.Token);
+                        await _viewModel.InsertPurchaseDispatchAsync(excessDTO).WaitAsync(cancellationTokenSource.Token);
+                        _viewModel.ExcessItems.Clear();
+                    }
+
+                    //İade ürünleri varsa
+                    if (_viewModel.ReturnItems.Count > 0)
+                    {
+                        await _viewModel.InsertPurchaseReturnDispatch(_viewModel.ReturnItems);
+                        _viewModel.ReturnItems.Clear();
+                    }
+
+                    await _viewModel.InsertQCNotificationAsync(dataResult.Data.Code, dataResult.Data.ReferenceId, dto);
+                }
                 else
                     XtraMessageBox.Show(dataResult.Message);
             }
@@ -70,7 +87,7 @@ public partial class ConfirmView : DevExpress.XtraEditors.XtraForm
                 {
                     purchaseDispatchPreview.Close();
 
-                    PurchaseDispatchDetailView purchaseDispatchDetailView = System.Windows.Forms.Application.OpenForms[nameof(PurchaseDispatchDetailView)] as PurchaseDispatchDetailView;
+                    PurchaseDispatchProductView purchaseDispatchDetailView = System.Windows.Forms.Application.OpenForms[nameof(PurchaseDispatchProductView)] as PurchaseDispatchProductView;
                     if (purchaseDispatchDetailView is not null)
                     {
                         await purchaseDispatchDetailView.LoadDataAsync();

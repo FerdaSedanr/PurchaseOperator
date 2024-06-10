@@ -119,9 +119,9 @@ public partial class SupplierListView : DevExpress.XtraEditors.XtraForm
                 selectedItem = gridView1.GetFocusedRow() as Supplier;
                 if (selectedItem is not null)
                 {
-                    PurchaseDispatchDetailViewModel purchaseDispatchDetailViewModel = _serviceProvider.GetService<PurchaseDispatchDetailViewModel>();
+                    PurchaseDispatchProductViewModel purchaseDispatchDetailViewModel = _serviceProvider.GetService<PurchaseDispatchProductViewModel>();
                     purchaseDispatchDetailViewModel.Supplier = selectedItem;
-                    PurchaseDispatchDetailView purchaseDispatchDetailView = new PurchaseDispatchDetailView(purchaseDispatchDetailViewModel, _serviceProvider); //_serviceProvider.GetService<PurchaseDispatchDetailView>();
+                    PurchaseDispatchProductView purchaseDispatchDetailView = new PurchaseDispatchProductView(purchaseDispatchDetailViewModel, _serviceProvider); //_serviceProvider.GetService<PurchaseDispatchDetailView>();
                     this.Hide();
                     purchaseDispatchDetailView.Show();
                 }

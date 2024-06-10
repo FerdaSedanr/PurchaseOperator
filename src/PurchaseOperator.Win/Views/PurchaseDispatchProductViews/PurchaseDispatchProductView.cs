@@ -27,14 +27,14 @@ using System.Windows.Forms;
 
 namespace PurchaseOperator.Win.Views.PurchaseDispatchDetailViews;
 
-public partial class PurchaseDispatchDetailView : DevExpress.XtraEditors.XtraForm
+public partial class PurchaseDispatchProductView : DevExpress.XtraEditors.XtraForm
 {
-    private PurchaseDispatchDetailViewModel _viewModel;
+    private PurchaseDispatchProductViewModel _viewModel;
     private readonly IServiceProvider _serviceProvider;
     public List<DispatchItem> SelectedRows { get; } = new();
     private int count = 0;
 
-    public PurchaseDispatchDetailView(PurchaseDispatchDetailViewModel viewModel, IServiceProvider serviceProvider)
+    public PurchaseDispatchProductView(PurchaseDispatchProductViewModel viewModel, IServiceProvider serviceProvider)
     {
         InitializeComponent();
         _viewModel = viewModel;
@@ -115,8 +115,8 @@ public partial class PurchaseDispatchDetailView : DevExpress.XtraEditors.XtraFor
                     purchaseDispatchPreviewViewModel.Items.AddRange(items);
                     purchaseDispatchPreviewViewModel.Supplier = _viewModel.Supplier;
                     this.Hide();
-                    PurchaseDispatchPreview purchaseDispatchPreviewView = _serviceProvider.GetService<PurchaseDispatchPreview>();
-                    purchaseDispatchPreviewView.ShowDialog();
+                    PurchaseDispatchPreview purchaseDispatchPreviewView = new PurchaseDispatchPreview(purchaseDispatchPreviewViewModel, _serviceProvider); //_serviceProvider.GetService<PurchaseDispatchPreview>();
+                    purchaseDispatchPreviewView.Show();
                 }
 
                 break;

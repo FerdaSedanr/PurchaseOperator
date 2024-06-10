@@ -6,11 +6,13 @@ using PurchaseOperator.Application.Services.ICustomerService;
 using PurchaseOperator.Application.Services.PortalProductServices;
 using PurchaseOperator.Application.Services.PurchaseDispatchService;
 using PurchaseOperator.Domain.Dtos;
+using PurchaseOperator.Domain.Models.PortalProductModels;
 using PurchaseOperator.Domain.Models.PurchaseDispatchTransactionModels;
 using PurchaseOperator.Domain.Models.SupplierModels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -62,6 +64,37 @@ public class PurchaseDispatchPreviewViewModel
         {
             throw;
         }
+    }
+
+    private async Task AuthenticateAsync()
+    {
+
+        var httpClient = _httpClientFactory.CreateClient("Portal");
+        var token = await _authenticatePortalService.AuthenticateAsync(httpClient, _configuration["PortalAuthenticateInformation:UserName"], _configuration["PortalAuthenticateInformation:Password"]);
+        if (!string.IsNullOrEmpty(token))
+        {
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+        }
+
+    }
+
+    public async Task<Product> GetProductAsync(int ProductReferenceId)
+    {
+        Product product = null;
+
+        var httpClient = _httpClientFactory.CreateClient("Portal");
+        var token = await _authenticatePortalService.AuthenticateAsync(httpClient, _configuration["PortalAuthenticateInformation:UserName"], _configuration["PortalAuthenticateInformation:Password"]);
+        if (!string.IsNullOrEmpty(token))
+        {
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            string filter = $"?$filter=ReferenceId eq {ProductReferenceId}";
+            var result = await _portalProductService.GetObjectsAsync(httpClient, filter);
+            if (result != null)            
+                product = result.FirstOrDefault();
+            
+        }
+
+        return product;
     }
 
     public async Task GetObjectsAsync(string Code)
