@@ -112,7 +112,11 @@ public partial class PurchaseDispatchProductView : DevExpress.XtraEditors.XtraFo
                 {
                     PurchaseDispatchPreviewViewModel purchaseDispatchPreviewViewModel = _serviceProvider.GetService<PurchaseDispatchPreviewViewModel>();
                     purchaseDispatchPreviewViewModel.Items.Clear();
-                    purchaseDispatchPreviewViewModel.Items.AddRange(items);
+
+                    foreach (var item in items)
+                        purchaseDispatchPreviewViewModel.Items.Add(item);
+
+
                     purchaseDispatchPreviewViewModel.Supplier = _viewModel.Supplier;
                     this.Hide();
                     PurchaseDispatchPreview purchaseDispatchPreviewView = new PurchaseDispatchPreview(purchaseDispatchPreviewViewModel, _serviceProvider); //_serviceProvider.GetService<PurchaseDispatchPreview>();

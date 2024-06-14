@@ -1,6 +1,7 @@
 ﻿namespace PurchaseOperator.Domain.Dtos;
 public record PurchaseReturnDispatchTransactionDto(
-  DateTime TransactionDate,
+ string Code,
+ DateTime TransactionDate,
  int WarehouseNumber,
  string CurrentCode,
  string Description,

@@ -78,6 +78,7 @@ public class PurchaseDispatchProductViewModel
                     DispatchItem dispatchItem = new DispatchItem();
                     dispatchItem.Code = item.Key;
                     dispatchItem.ReferenceId = item.ToList().First().ProductReferenceId;
+                    dispatchItem.SubUnitsetCode = item.ToList().First().SubUnitsetCode;
                     dispatchItem.Name = item.ToList().First().ProductName;
                     dispatchItem.ManufactureCode = item.ToList().First().ManufactureCode;
                     dispatchItem.DemandQuantity = item.ToList().Sum(x => x.DemandQuantity);
@@ -116,6 +117,7 @@ public class PurchaseDispatchProductViewModel
                     dispatchItem.Code = item.Key;
                     dispatchItem.ReferenceId = item.ToList().First().ReferenceId;
                     dispatchItem.Name = item.ToList().First().ProductName;
+                    dispatchItem.SubUnitsetCode = item.ToList().First().SubUnitsetCode;
                     dispatchItem.DemandQuantity = item.ToList().Sum(x => x.DemandQuantity);
                     dispatchItem.SupplyChainQuantity = item.ToList().Sum(x => x.SupplyChainQuantity);
                     dispatchItem.TotalQuantity = item.ToList().Sum(x => x.Quantity);

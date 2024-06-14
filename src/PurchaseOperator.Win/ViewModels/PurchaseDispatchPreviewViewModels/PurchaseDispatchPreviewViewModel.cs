@@ -11,6 +11,7 @@ using PurchaseOperator.Domain.Models.PurchaseDispatchTransactionModels;
 using PurchaseOperator.Domain.Models.SupplierModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
@@ -45,7 +46,7 @@ public class PurchaseDispatchPreviewViewModel
     public int FirmNumber { get; set; }
     public int PeriodNumber { get; set; }
 
-    public List<DispatchItem> Items { get; } = new();
+    public BindingList<DispatchItem> Items { get; } = new();
     public Supplier Supplier { get; set; }
 
     public async Task CreatePurchaseDispatch(PurchaseDispatchTransactionDto dto)

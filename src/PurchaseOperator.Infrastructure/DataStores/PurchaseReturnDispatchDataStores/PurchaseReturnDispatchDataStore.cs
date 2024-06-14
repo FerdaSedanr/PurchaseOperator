@@ -23,6 +23,14 @@ public class PurchaseReturnDispatchDataStore : IPurchaseReturnDispatchService
             if (!string.IsNullOrEmpty(jsonData))
                 dataResult = JsonSerializer.Deserialize<ResponseDataResult<PurchaseTransactionResult>>(jsonData);
         }
+        else
+        {
+            dataResult = new ResponseDataResult<PurchaseTransactionResult>
+            {
+                IsSuccess = false,
+                Message = await responseMessage.Content.ReadAsStringAsync()
+            };
+        }
 
         return await Task.FromResult(dataResult);
     }
