@@ -1,13 +1,17 @@
 ﻿using DevExpress.XtraBars.Docking2010.Customization;
 using DevExpress.XtraBars.Docking2010.Views.WindowsUI;
 using DevExpress.XtraEditors;
+using DevExpress.XtraScheduler.Outlook.Interop;
 using PurchaseOperator.Domain.Dtos;
+using PurchaseOperator.Domain.Models.PurchaseDispatchTransactionModels;
 using PurchaseOperator.Domain.ResponseModels;
 using PurchaseOperator.Win.ViewModels.ConfirmViewModels;
 using PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews;
 using PurchaseOperator.Win.Views.PurchaseDispatchDetailViews;
 using PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -54,28 +58,42 @@ public partial class ConfirmView : DevExpress.XtraEditors.XtraForm
             dto = _viewModel.TargetObjectType == 2 ? await _viewModel.CreateDispatchDTOWithOrderAsync(_viewModel.Items, textEdit1.Text, (DateTime)dateEdit1.EditValue).WaitAsync(cancellationTokenSource.Token) : await _viewModel.CreateDispatchDTOAsync(_viewModel.Items, textEdit1.Text, (DateTime)dateEdit1.EditValue).WaitAsync(cancellationTokenSource.Token);
             if (dto is not null)
             {
-                var dataResult = await _viewModel.InsertPurchaseDispatchAsync(dto).WaitAsync(cancellationTokenSource.Token);
-                if (dataResult.IsSuccess)
+                var lbsHttpClient = await _viewModel.LBSAuthenticateAsync().WaitAsync(cancellationTokenSource.Token);
+                if (lbsHttpClient is not null)
                 {
-                    //Fazla ürünler varsa
-                    if (_viewModel.ExcessItems.Count > 0)
+                    var dataResult = await _viewModel.InsertPurchaseDispatchAsync(lbsHttpClient,dto).WaitAsync(cancellationTokenSource.Token);
+                    if (dataResult.IsSuccess)
                     {
-                        var excessDTO = await _viewModel.CreateDispatchDTOAsync(_viewModel.ExcessItems, textEdit1.Text, (DateTime)dateEdit1.EditValue).WaitAsync(cancellationTokenSource.Token);
-                        await _viewModel.InsertPurchaseDispatchAsync(excessDTO).WaitAsync(cancellationTokenSource.Token);
-                        _viewModel.ExcessItems.Clear();
-                    }
+                        #region Sayım Eksiği Hesapla
+                        List<DispatchItem> underCountItems = new();
+                        foreach (var item in _viewModel.Items.Where(x => x.UnderCountQuantity > 0))
+                            underCountItems.Add(item);
 
-                    //İade ürünleri varsa
-                    if (_viewModel.ReturnItems.Count > 0)
-                    {
-                        await _viewModel.InsertPurchaseReturnDispatch(_viewModel.ReturnItems);
-                        _viewModel.ReturnItems.Clear();
-                    }
+                        if (underCountItems.Any())
+                            await _viewModel.InsertPurchaseReturnDispatch(lbsHttpClient, dataResult.Data.ReferenceId, underCountItems, 1);
+                        #endregion
 
-                    await _viewModel.InsertQCNotificationAsync(dataResult.Data.Code, dataResult.Data.ReferenceId, dto);
+                        #region Sipariş Fazlası Hesapla
+                        List<DispatchItem> overOrderItems = new();
+                        foreach (var item in _viewModel.Items.Where(x => x.OverOrderQuantity > 0))
+                            overOrderItems.Add(item);
+
+                        if (overOrderItems.Any())
+                            await _viewModel.InsertPurchaseReturnDispatch(lbsHttpClient, dataResult.Data.ReferenceId, overOrderItems, 2);
+                        #endregion
+                        
+                        //İrsaliye Başarılı ise Portala Gönder
+                        await _viewModel.InsertQCNotificationAsync(dataResult.Data.Code, dataResult.Data.ReferenceId, dto);
+
+                    }
+                    else
+                        XtraMessageBox.Show(dataResult.Message);
                 }
                 else
-                    XtraMessageBox.Show(dataResult.Message);
+                {
+                    XtraMessageBox.Show("LBS Bağlantısı Sağlanamadı");
+                }
+
             }
 
             splashScreenManager1.CloseWaitForm();

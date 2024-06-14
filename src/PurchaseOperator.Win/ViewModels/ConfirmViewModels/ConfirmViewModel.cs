@@ -20,8 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using PurchaseOperator.Domain.Models.SeriLotInfoModels;
+using System.Text.Json.Nodes;
 
 namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
 {
@@ -75,19 +79,36 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
 
         public int TargetObjectType { get; set; }
 
-        public async Task<ResponseDataResult<ProductTransactionResult>> InsertPurchaseDispatchAsync(PurchaseDispatchTransactionDto dto)
+        public async Task<HttpClient> LBSAuthenticateAsync()
         {
-            ResponseDataResult<ProductTransactionResult> productTransactionResult = new ResponseDataResult<ProductTransactionResult>();
-
-            try
+            return await Task.Run(async () =>
             {
                 var httpClient = _httpClientFactory.CreateClient("LBS");
                 var token = await _authenticateLBSService.AuthenticateAsync(httpClient, "Admin", "");
                 if (!string.IsNullOrEmpty(token))
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-                    productTransactionResult = await _purchaseDispatchService.InsertAsync(httpClient, dto, FirmNumber);
+                    return httpClient;
                 }
+                return null;
+            });
+        }
+
+        public async Task<ResponseDataResult<ProductTransactionResult>> InsertPurchaseDispatchAsync(HttpClient httpClient ,PurchaseDispatchTransactionDto dto)
+        {
+            ResponseDataResult<ProductTransactionResult> productTransactionResult = new ResponseDataResult<ProductTransactionResult>();
+
+            try
+            {
+                //var httpClient = _httpClientFactory.CreateClient("LBS");
+                //var token = await _authenticateLBSService.AuthenticateAsync(httpClient, "Admin", "");
+                //if (!string.IsNullOrEmpty(token))
+                //{
+                //    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                //    productTransactionResult = await _purchaseDispatchService.InsertAsync(httpClient, dto, FirmNumber);
+                //}
+
+                productTransactionResult = await _purchaseDispatchService.InsertAsync(httpClient, dto, FirmNumber);
             }
             catch (Exception ex)
             {
@@ -140,7 +161,7 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
                     var subUnitset = await _subUnitsetService.GetObjectsAsync(httpClient, $"?$filter=ReferenceId eq {item.SubUnitsetReferenceId}");
                     if (product.Any() && subUnitset.Any())
                     {
-                        QCNotificationDetailDto detailDto = new QCNotificationDetailDto(Guid.Parse(qCNotification.Oid), product.FirstOrDefault().Oid, subUnitset.FirstOrDefault().Oid, (double)item.Quantity);
+                        QCNotificationDetailDto detailDto = new QCNotificationDetailDto(Guid.Parse(qCNotification.Oid), product.FirstOrDefault().Oid, subUnitset.FirstOrDefault().Oid, Items.FirstOrDefault(x=> x.Code == item.ProductCode)?.CountAmount ?? 0);
                         await _notificationDetailService.InsertObjectAsync(httpClient, detailDto);
                     }
                 }
@@ -174,9 +195,6 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
 
             foreach (var line in items)
             {
-
-                ExtraControl(line);
-
                 var lineDto = new PurchaseDispatchTransactionLineDto()
                 {
                     WarehouseNumber = WarehouseNumber,
@@ -215,6 +233,11 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
             return await Task.FromResult(dto);
         }
 
+        private static DispatchItem ConvertItem(DispatchItem line)
+        {
+            return new DispatchItem { CustomQuantity = line.CustomQuantity, ManufactureCode = line.ManufactureCode, Code = line.Code, CountAmount = line.CountAmount, TotalWaitingQuantity = line.TotalWaitingQuantity, DemandQuantity = line.DemandQuantity, Name = line.Name, ReferenceId = line.ReferenceId, SubUnitsetCode = line.SubUnitsetCode, SupplyChainQuantity = line.SupplyChainQuantity, SubUnitsetReferenceId = line.SubUnitsetReferenceId, TotalQuantity = line.TotalQuantity, Description = line.Description, LineNumber = line.LineNumber, TotalShippedQuantity = line.TotalShippedQuantity, UnitsetCode = line.UnitsetCode, UnıtsetReferenceId = line.UnıtsetReferenceId, Lines = new() };
+        }
+
         /// <summary>
         /// Sipariş Bağımlı İrsaliye Nesnesi Oluşturur
         /// </summary>
@@ -224,7 +247,7 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
         /// <returns></returns>
         public async Task<PurchaseDispatchTransactionDto> CreateDispatchDTOWithOrderAsync(List<DispatchItem> items, string number, DateTime dispatchOn)
         {
-            PurchaseDispatchTransactionDto dto = new();
+            PurchaseDispatchTransactionDto dto = new();            
             dto.WarehouseNumber = WarehouseNumber;
             dto.CurrentCode = Supplier.Code;
             var owner = Guid.NewGuid();
@@ -238,8 +261,6 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
 
             foreach (var item in items.Where(x => x.Lines.Count > 0))
             {
-                ExtraControl(item);
-
                 var remainingQuantity = item.CustomQuantity;
                 foreach (var line in item.Lines.OrderBy(x => x.Date))
                 {
@@ -323,8 +344,6 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
 
             foreach (var line in items.Where(x => x.Lines.Count == 0))
             {
-                ExtraControl(line);
-
                 var lineDto = new PurchaseDispatchTransactionLineDto()
                 {
                     WarehouseNumber = WarehouseNumber,
@@ -360,116 +379,171 @@ namespace PurchaseOperator.Win.ViewModels.ConfirmViewModels
             return await Task.FromResult(dto);
         }
 
-        private void ExtraControl(DispatchItem item)
+        public async Task InsertPurchaseReturnDispatch(HttpClient httpClient, int DispatchReferenceId, List<DispatchItem> items,int QuantityType)
         {
-            double x = Convert.ToDouble(item.TotalWaitingQuantity + item.SupplyChainQuantity);
-            double y = Convert.ToDouble(item.CustomQuantity);
-            double z = Convert.ToDouble(item.CountAmount);
+            var dto = new PurchaseReturnDispatchTransactionDto(
+                    Code: null,
+                    TransactionDate: DateTime.Now,
+                    WarehouseNumber: WarehouseNumber,
+                    CurrentCode: Supplier.Code,
+                    Description: string.Empty,
+                    DispatchType: 0,
+                    SpeCode: string.Empty,
+                    DispatchStatus: 1,
+                    IsEDispatch: (int)Supplier.DispatchType,
+                    DoCode: string.Empty,
+                    DocTrackingNumber: string.Empty,
+                    EDispatchProfileId: (int)Supplier.DispatchType,
+                    Lines: GetReturnItems(httpClient,DispatchReferenceId, items, QuantityType));
 
-            if (y > x)
+
+
+            //var httpClient = _httpClientFactory.CreateClient("LBS");
+            //var token = await _authenticateLBSService.AuthenticateAsync(httpClient, "Admin", "");
+            //if (!string.IsNullOrEmpty(token))
+            //{
+            //    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+            //    var result = await _purchaseReturnDispatchService.InsertAsync(httpClient, dto, FirmNumber);
+            //}
+
+            var result = await _purchaseReturnDispatchService.InsertAsync(httpClient, dto, FirmNumber);
+        }
+        private List<PurchaseReturnDispatchTransactionLineDto> GetReturnItems(HttpClient httpClient,int DispatchReferenceId, List<DispatchItem> items, int QuantityType)
+        {
+            var lines = new List<PurchaseReturnDispatchTransactionLineDto>();
+
+            if (QuantityType == 1)
             {
-                double quantity = (y - x) + (y - z);
-                if (quantity > 0)
+                foreach (var item in items)
                 {
-                    item.CustomQuantity = quantity;
-                    item.CountAmount = 0;
-                    item.DemandQuantity = 0;
-                    item.SupplyChainQuantity = 0;
-                    item.TotalQuantity = 0;
-                    item.TotalWaitingQuantity = 0;
+                    lines.Add(new(
+                        ProductCode: item.Code,
+                        SubUnitsetCode: item.SubUnitsetCode,
+                        Quantity: item.UnderCountQuantity,
+                        UnitPrice: 0,
+                        VatRate: 20,
+                        WarehouseNumber: WarehouseNumber,
+                        OrderReferenceId: 0,
+                        Description: string.Empty,
+                        SpeCode: "Sayım Eksiği İade",
+                        ConversionFactor: 1,
+                        OtherConversionFactor: 1,
+                        GetReturnItemSeriLots(httpClient, DispatchReferenceId, item.ReferenceId, item.SubUnitsetCode, item.UnderCountQuantity)));
 
-                    if (item.CustomQuantity > x)//32 > 30
-                    {
-                        item.CustomQuantity = item.CustomQuantity - x;
-                        ReturnItems.Add(item); // İade ürün
-                    }
-                        
                 }
-                else
+            }
+            else if (QuantityType == 2)
+            {
+                foreach (var item in items)
                 {
-                    item.CustomQuantity = quantity;
-                    item.CountAmount = 0;
-                    item.DemandQuantity = 0;
-                    item.SupplyChainQuantity = 0;
-                    item.TotalQuantity = 0;
-                    item.TotalWaitingQuantity = 0;
+                    lines.Add(new(
+                        ProductCode: item.Code,
+                        SubUnitsetCode: item.SubUnitsetCode,
+                        Quantity: item.OverOrderQuantity,
+                        UnitPrice: 0,
+                        VatRate: 20,
+                        WarehouseNumber: WarehouseNumber,
+                        OrderReferenceId: 0,
+                        Description: string.Empty,
+                        SpeCode: "Sipariş Fazlası İade",
+                        ConversionFactor: 1,
+                        OtherConversionFactor: 1,
+                        GetReturnItemSeriLots(httpClient, DispatchReferenceId, item.ReferenceId, item.SubUnitsetCode, item.OverOrderQuantity)));
 
-                    ExcessItems.Add(item);//Fazla ÜRün
                 }
             }
             else
             {
-                double quantity = y - z;
-                if (quantity > 0)
+                foreach (var item in items)
                 {
-                    item.CustomQuantity = quantity;
-                    item.CountAmount = 0;
-                    item.DemandQuantity = 0;
-                    item.SupplyChainQuantity = 0;
-                    item.TotalQuantity = 0;
-                    item.TotalWaitingQuantity = 0;
 
-                    ReturnItems.Add(item); // İade ürün
-                }
-                else
-                {
-                    item.CustomQuantity = quantity;
-                    item.CountAmount = 0;
-                    item.DemandQuantity = 0;
-                    item.SupplyChainQuantity = 0;
-                    item.TotalQuantity = 0;
-                    item.TotalWaitingQuantity = 0;
 
-                    ExcessItems.Add(item);//Fazla ÜRün
+                    lines.Add(new(
+                        ProductCode: item.Code,
+                        SubUnitsetCode: item.SubUnitsetCode,
+                        Quantity: item.CustomQuantity,
+                        UnitPrice: 0,
+                        VatRate: 20,
+                        WarehouseNumber: WarehouseNumber,
+                        OrderReferenceId: 0,
+                        Description: string.Empty,
+                        SpeCode: "Diğer",
+                        ConversionFactor: 1,
+                        OtherConversionFactor: 1,
+                        GetReturnItemSeriLots(httpClient, DispatchReferenceId, item.ReferenceId, item.SubUnitsetCode, item.CustomQuantity)));
+
                 }
             }
+
+
+            return lines;
         }
-
-        public async Task InsertPurchaseReturnDispatch(List<DispatchItem> items)
+        public List<SeriLotTransactionDto> GetReturnItemSeriLots(HttpClient httpClient,int DispatchReferenceId, int ProductReferenceId, string SubUnitsetCode, double Quantity)
         {
-            var serilots = new List<SeriLotTransactionDto>();
-
-            var lines = new List<PurchaseReturnDispatchTransactionLineDto>();
-            foreach (var item in items)
+            var seriLots = new List<SeriLotTransactionDto>();
+            var seriLotInfo = CustomQuery(httpClient, DispatchReferenceId, ProductReferenceId, WarehouseNumber);
+            if (seriLotInfo is not null)
             {
-                lines.Add(new(
-                    item.Code,
-                    item.SubUnitsetCode,
-                    item.CustomQuantity,
-                    0,
-                    20,
-                    WarehouseNumber,
-                    0,
-                    string.Empty,
-                    string.Empty,
-                    item.CustomQuantity,
-                    item.CustomQuantity,
-                    new List<SeriLotTransactionDto>()));
-
+                seriLots.Add(new SeriLotTransactionDto(
+                    StockLocationCode: LocationCode,
+                    DestinationStockLocationCode: string.Empty,
+                    InProductTransactionLineReferenceId: seriLotInfo.InProductTransactionReferenceId,
+                    OutProductTransactionLineReferenceId: seriLotInfo.OutProductTransacationReferenceId,
+                    SerilotType: 0,
+                    Quantity: Quantity,
+                    SubUnitsetCode: SubUnitsetCode,
+                    ConversionFactor: 1,
+                    OtherConversionFactor: 1));
             }
 
-            var dto = new PurchaseReturnDispatchTransactionDto(
-                TransactionDate: DateTime.Now,
-                WarehouseNumber,
-                Supplier.Code,
-                string.Empty,
-                0,
-                string.Empty,
-                1,
-                (int)Supplier.DispatchType,
-                string.Empty,
-                string.Empty,
-                (int)Supplier.DispatchType,
-                lines);
+            return seriLots;
+        }
+        private SeriLotInfo CustomQuery(HttpClient httpClient, int dispatchReferenceId, int productReferenceId, int warehouseNumber)
+        {
+            SeriLotInfo seriLotInfo = null;
 
-            var httpClient = _httpClientFactory.CreateClient("LBS");
-            var token = await _authenticateLBSService.AuthenticateAsync(httpClient, "Admin", "");
-            if (!string.IsNullOrEmpty(token))
+            string query = $@"SELECT  
+[InProductTransactionReferenceId] = LGMAIN.STTRANSREF,
+[OutProductTransacationReferenceId] = LGMAIN.LOGICALREF
+
+ FROM 
+LG_001_02_SLTRANS LGMAIN WITH(NOLOCK)    
+LEFT OUTER JOIN LG_001_ITEMS ITEMS WITH(NOLOCK) ON (LGMAIN.ITEMREF  =  ITEMS.LOGICALREF) 
+LEFT OUTER JOIN LG_001_LOCATION INVLOC WITH(NOLOCK) ON (LGMAIN.LOCREF  =  INVLOC.LOGICALREF) 
+LEFT OUTER JOIN LG_001_02_STFICHE STFIC WITH(NOLOCK) ON (LGMAIN.STFICHEREF  =  STFIC.LOGICALREF) 
+LEFT OUTER JOIN LG_001_UNITSETL USLINE WITH(NOLOCK) ON (LGMAIN.UOMREF  =  USLINE.LOGICALREF) 
+LEFT OUTER JOIN LG_001_UNITSETF UNITSET WITH(NOLOCK) ON (USLINE.UNITSETREF  =  UNITSET.LOGICALREF)
+LEFT OUTER JOIN L_CAPIWHOUSE WHOUSE WITH(NOLOCK) ON (LGMAIN.INVENNO = WHOUSE.NR AND WHOUSE.FIRMNR = 1)
+ WHERE 
+(LGMAIN.CANCELLED = 0) AND 
+(LGMAIN.LPRODSTAT = 0) AND 
+(LGMAIN.ITEMREF = {productReferenceId}) AND
+(LGMAIN.INVENNO = {warehouseNumber}) AND
+(LGMAIN.STFICHEREF = {dispatchReferenceId}) AND
+(LGMAIN.EXIMFCTYPE IN ( 0 , 4 , 5 , 3 , 2 , 7 )) AND 
+(LGMAIN.STATUS = 0) AND 
+(LGMAIN.REMAMOUNT > 0) AND 
+(LGMAIN.IOCODE IN (1,2))
+
+GROUP BY LGMAIN.LOGICALREF,LGMAIN.STTRANSREF";
+
+            string requestUri = "gateway/customQuery/CustomQuery";
+
+            string serilazeData = JsonSerializer.Serialize(query);
+            var content = new StringContent(serilazeData, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseMessage = httpClient.PostAsync($"{requestUri}", content).Result;
+            if (responseMessage.IsSuccessStatusCode)
             {
-                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                var result = responseMessage.Content.ReadAsStringAsync().Result;
 
-                var result = await _purchaseReturnDispatchService.InsertAsync(httpClient, dto, FirmNumber);
+                if (!string.IsNullOrEmpty(result))                
+                    seriLotInfo = JsonNode.Parse(result)["data"].Deserialize<IEnumerable<SeriLotInfo>>().First();
+                
+                
             }
+
+            return seriLotInfo;
 
         }
     }

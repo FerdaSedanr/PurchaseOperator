@@ -1,8 +1,10 @@
 ﻿using PurchaseOperator.Domain.Models.PurchaseOrderModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace PurchaseOperator.Domain.Models.PurchaseDispatchTransactionModels;
 
-public class DispatchItem
+public class DispatchItem : INotifyPropertyChanged
 {
     public DispatchItem()
     {
@@ -28,14 +30,65 @@ public class DispatchItem
 
     public double? TotalShippedQuantity { get; set; } = default;//Shipped (Satış Olduğunda Sevkedilenn, Satınalma  olduğunda Kabul edilendir
 
-    public double CustomQuantity { get; set; } = default;
+    private double customQuantity;
+    public double CustomQuantity
+    {
+        get { return customQuantity; }
+        set
+        {
+            customQuantity = value;
+            OnPropertyChanged(nameof(UnderCountQuantity));
+            OnPropertyChanged(nameof(OverOrderQuantity));
+        }
+    }
 
-    public double CountAmount { get; set; } = default;
+    private double countAmount;
+    public double CountAmount
+    {
+        get { return countAmount; }
+        set
+        {
+            countAmount = value;
+            if (countAmount > customQuantity)            
+                countAmount = customQuantity;
+            
+            OnPropertyChanged(nameof(UnderCountQuantity));
+            OnPropertyChanged(nameof(OverOrderQuantity));
+        }
+    }
 
     public string ManufactureCode { get; set; } = string.Empty;
 
     public int LineNumber { get; set; }
     public string Description { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Sayım Eksiği Miktarı
+    /// </summary>
+    public double UnderCountQuantity => CountAmount == 0 ? 0 : CustomQuantity - CountAmount < 0 ? 0 : CustomQuantity - CountAmount;
+
+    /// <summary>
+    /// Sipariş Fazlası Miktarı
+    /// </summary>
+    public double OverOrderQuantity => Convert.ToDouble(CountAmount - TotalWaitingQuantity) < 0 ? 0 : Convert.ToDouble(CountAmount - TotalWaitingQuantity);
+
     public List<PurchaseOrderLine> Lines { get; set; }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected void OnPropertyChanged([CallerMemberName] string name = null!)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        switch (name)
+        {
+            case nameof(CountAmount):
+            case nameof(CustomQuantity):
+                //UnderCountQuantity = CustomQuantity - CountAmount;
+                //OverOrderQuantity = Convert.ToDouble(CountAmount - TotalWaitingQuantity);
+                break;
+
+            default:
+                break;
+        }
+    }
 }
