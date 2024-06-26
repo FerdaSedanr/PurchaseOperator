@@ -113,6 +113,7 @@ namespace PurchaseOperator.Win.Views.ProductListViews
                                 }
 
                                 CustomPurchaseDispatchPreviewView customPurchaseDispatchPreviewView = System.Windows.Forms.Application.OpenForms[nameof(CustomPurchaseDispatchPreviewView)] as CustomPurchaseDispatchPreviewView;
+                                customPurchaseDispatchPreviewView.gridControl1.DataSource = customPurchaseDispatchPreviewViewModel.Items;
                                 customPurchaseDispatchPreviewView.gridControl1.RefreshDataSource();
                                 customPurchaseDispatchPreviewView.gridControl1.Refresh();
 

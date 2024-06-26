@@ -111,7 +111,7 @@ internal static class Program
             //services.AddScoped<PurchaseDispatchProductView>();
             services.AddTransient<PurchaseDispatchPreviewViewModel>();
             services.AddTransient<PurchaseDispatchPreview>();
-            services.AddTransient<CustomPurchaseDispatchPreviewViewModel>();
+            services.AddScoped<CustomPurchaseDispatchPreviewViewModel>();
             services.AddTransient<CustomPurchaseDispatchPreviewView>();
             services.AddTransient<ConfirmViewModel>();
             services.AddTransient<ConfirmView>();

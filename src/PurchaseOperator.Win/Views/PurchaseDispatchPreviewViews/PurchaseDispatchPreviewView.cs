@@ -3,6 +3,7 @@ using DevExpress.XtraBars.Docking2010.Customization;
 using DevExpress.XtraBars.Docking2010.Views.WindowsUI;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraReports.UI;
 using Microsoft.Extensions.Configuration;
 using PurchaseOperator.Application.Services.AuthenticateService;
 using PurchaseOperator.Application.Services.ICustomerService;
@@ -14,6 +15,7 @@ using PurchaseOperator.Domain.Dtos;
 using PurchaseOperator.Domain.Dtos.QCNotificationDtos;
 using PurchaseOperator.Domain.Models.PurchaseDispatchTransactionModels;
 using PurchaseOperator.Win.Helpers;
+using PurchaseOperator.Win.Reports;
 using PurchaseOperator.Win.ViewModels.ConfirmViewModels;
 using PurchaseOperator.Win.ViewModels.ProductListViewModels;
 using PurchaseOperator.Win.ViewModels.PurchaseDispatchPreviewViewModels;
@@ -23,6 +25,7 @@ using PurchaseOperator.Win.Views.PurchaseDispatchDetailViews;
 using PurchaseOperator.Win.Views.SupplierViews;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -36,15 +39,6 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
         public PurchaseDispatchPreviewViewModel _viewModel;
         private readonly IServiceProvider _serviceProvider;
 
-        //private IAuthenticatePortalService _authenticatePortalService;        
-        //private readonly IConfiguration _configuration;
-        //private readonly IPortalProductService _portalProductService;
-        //private readonly ICustomerService _customerService;
-        //private IHttpClientFactory _httpClientFactory;
-        //private IQCNotificationService _notificationService;
-        //private IQCNotificationDetailService _notificationDetailService;
-        //private ISubUnitsetService _subUnitsetService;
-        //private HttpClient httpClient;
 
         public PurchaseDispatchPreview(PurchaseDispatchPreviewViewModel viewModel, IServiceProvider serviceProvider)
         {
@@ -52,14 +46,6 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
             _viewModel = viewModel;
             gridControl1.DataSource = _viewModel.Items;
             _serviceProvider = serviceProvider;
-            //_configuration = configuration;
-            //_portalProductService = portalProductService;
-            //_customerService = customerService;
-            //_authenticatePortalService = authenticatePortalService;
-            //_notificationService = qCNotificationService;
-            //_notificationDetailService = qCNotificationDetailService;
-            //_subUnitsetService = subUnitsetService;
-            //_httpClientFactory = httpClientFactory;
         }
 
 
@@ -183,6 +169,32 @@ namespace PurchaseOperator.Win.Views.PurchaseDispatchPreviewViews
                     DispatchItem removeItem = gridView1.GetFocusedRow() as DispatchItem;
                     if (removeItem is not null)
                         RemoveObject(removeItem);
+                    break;
+
+                case "Yazdır":
+
+                    if (File.Exists($"{Environment.CurrentDirectory}/Barcodes/ProductBarcode.repx"))
+                    {
+                        ProductBarcode productBarcode = XtraReport.FromFile($"{Environment.CurrentDirectory}/Barcodes/ProductBarcode.repx", true) as ProductBarcode;
+                        productBarcode.DataSource = _viewModel.Items;
+
+                        using (ReportPrintTool printTool = new ReportPrintTool(productBarcode))
+                        {
+                            var configuration = _serviceProvider.GetService<IConfiguration>();
+                            printTool.Print(configuration["DefaultBarcodePrinterName"]);
+                        }
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("Ürün barkod tasarımı bulunamadı..!");
+                    }
+
+
+                    break;
+
+                case "Tasarla":
+                    ReportDesignerViews.ReportDesignerView reportDesignerView = new ReportDesignerViews.ReportDesignerView(_viewModel.Items.ToList());
+                    reportDesignerView.ShowDialog();
                     break;
             }
         }

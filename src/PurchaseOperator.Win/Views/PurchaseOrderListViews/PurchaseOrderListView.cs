@@ -25,11 +25,13 @@ namespace PurchaseOperator.Win.Views.PurchaseOrderListViews;
 public partial class PurchaseOrderListView : DevExpress.XtraEditors.XtraForm
 {
     private PurchaseOrderListViewModel _viewModel;
+    private readonly IServiceProvider _serviceProvider;
 
-    public PurchaseOrderListView(PurchaseOrderListViewModel viewModel)
+    public PurchaseOrderListView(PurchaseOrderListViewModel viewModel, IServiceProvider serviceProvider)
     {
         InitializeComponent();
         _viewModel = viewModel;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task LoadDataAsync()
@@ -43,9 +45,10 @@ public partial class PurchaseOrderListView : DevExpress.XtraEditors.XtraForm
             splashScreenManager1.SetWaitFormCaption("Ürün Listesi");
             splashScreenManager1.SetWaitFormDescription("Yükleniyor,Lütfen bekleyiniz..");
 
-            gridView1.RowHeight = 50;
-            gridView1.BestFitColumns();
+            //gridView1.RowHeight = 50;
+            
             gridControl1.DataSource = _viewModel.Items;
+            gridView1.BestFitColumns();
             gridControl1.RefreshDataSource();
 
             splashScreenManager1.CloseWaitForm();

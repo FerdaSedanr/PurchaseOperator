@@ -34,15 +34,12 @@ namespace PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews
     {
         public CustomPurchaseDispatchPreviewViewModel _viewModel;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly HttpClient httpClient;
 
-        public CustomPurchaseDispatchPreviewView(CustomPurchaseDispatchPreviewViewModel viewModel, IServiceProvider serviceProvider, IHttpClientFactory httpClientFactory)
+        public CustomPurchaseDispatchPreviewView(CustomPurchaseDispatchPreviewViewModel viewModel, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _viewModel = viewModel;
             _serviceProvider = serviceProvider;
-            _httpClientFactory = httpClientFactory;
             gridControl1.DataSource = _viewModel.Items;
             gridView1.BestFitColumns();
         }
@@ -81,7 +78,7 @@ namespace PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews
             return parameter != DialogResult.Cancel;
         }
 
-        private bool CloseMessage()
+        private DialogResult CloseMessage()
         {
             FlyoutAction action = new FlyoutAction()
             {
@@ -89,7 +86,7 @@ namespace PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews
                 Description = "Form ekranında yaptığınız değişiklikler kaydedilmeden kapatılacaktır."
             };
 
-            Predicate<DialogResult> predicate = canCloseFunc;
+            
             FlyoutCommand command1 = new FlyoutCommand()
             {
                 Text = "Kapat",
@@ -110,7 +107,7 @@ namespace PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews
                 Style = FlyoutStyle.MessageBox
             };
 
-            return FlyoutDialog.Show(this, action, properties, predicate) == DialogResult.Yes;
+            return FlyoutDialog.Show(this, action, properties);
         }
 
         private void ShowWarningMessage(string description)
@@ -179,9 +176,23 @@ namespace PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews
             switch (e.Button.Properties.Caption)
             {
                 case "Geri":
-                    SupplierListView supplierListView = _serviceProvider.GetService<SupplierListView>(); //(SupplierListView)System.Windows.Forms.Application.OpenForms[nameof(SupplierListView)];
-                    supplierListView.Show();
-                    this.Close();
+                    if (_viewModel.Items.Any())
+                    {
+                        if (CloseMessage() == DialogResult.Yes)
+                        {
+                            SupplierListView supplierListView = (SupplierListView)System.Windows.Forms.Application.OpenForms[nameof(SupplierListView)];
+                            supplierListView.Show();
+                            this.Close();
+                        }
+                    }
+                    else
+                    {
+                        SupplierListView supplierListView = (SupplierListView)System.Windows.Forms.Application.OpenForms[nameof(SupplierListView)];
+                        supplierListView.Show();
+                        this.Close();
+                    }
+                                     
+                    
                     break;
 
                 case "Tamam":
@@ -228,7 +239,7 @@ namespace PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews
                     productListViewModel.TargetObjectType = 1;
                     productListViewModel.Items.ForEach(x => x.Quantity = 1);
 
-                    ProductListView productListView = _serviceProvider.GetService<ProductListView>();
+                    ProductListView productListView = new ProductListView(productListViewModel, _serviceProvider); 
                     productListView.ShowDialog();
                     break;
 
@@ -254,6 +265,7 @@ namespace PurchaseOperator.Win.Views.CustomPurchaseDispatchPreviewViews
             if (FlyoutDialog.Show(this, action, properties) == System.Windows.Forms.DialogResult.Yes)
             {
                 _viewModel.Items.Remove(removeItem);
+                gridControl1.DataSource = _viewModel.Items;
                 gridControl1.RefreshDataSource();
             }
             else
