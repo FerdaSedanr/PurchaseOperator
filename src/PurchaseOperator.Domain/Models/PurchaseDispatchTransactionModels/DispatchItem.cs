@@ -37,6 +37,9 @@ public class DispatchItem : INotifyPropertyChanged
         set
         {
             customQuantity = value;
+            if (customQuantity < 1)
+                customQuantity = 1;
+
             OnPropertyChanged(nameof(UnderCountQuantity));
             OnPropertyChanged(nameof(OverOrderQuantity));
         }
@@ -49,6 +52,9 @@ public class DispatchItem : INotifyPropertyChanged
         set
         {
             countAmount = value;
+            if(countAmount < 1)
+                countAmount = 1;
+
             if (countAmount > customQuantity)            
                 countAmount = customQuantity;
             

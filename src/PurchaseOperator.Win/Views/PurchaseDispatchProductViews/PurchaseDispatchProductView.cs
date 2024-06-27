@@ -74,15 +74,23 @@ public partial class PurchaseDispatchProductView : DevExpress.XtraEditors.XtraFo
                 break;
 
             case "Siparişler":
-                DispatchItem selectedItem = gridView1.GetFocusedRow() as DispatchItem;
-                if (selectedItem is not null)
+                if (gridView1.SelectedRowsCount > 1)
                 {
-                    PurchaseOrderListViewModel purchaseOrderListViewModel = _serviceProvider.GetService<PurchaseOrderListViewModel>();
-                    purchaseOrderListViewModel.Items.AddRange(selectedItem.Lines);
-
-                    PurchaseOrderListView purchaseOrderListView = _serviceProvider.GetService<PurchaseOrderListView>();
-                    purchaseOrderListView.ShowDialog();
+                    XtraMessageBox.Show("Birden fazla ürün seçimi yapamazsınız.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                else
+                {
+                    DispatchItem selectedItem = gridView1.GetFocusedRow() as DispatchItem;
+                    if (selectedItem is not null)
+                    {
+                        PurchaseOrderListViewModel purchaseOrderListViewModel = _serviceProvider.GetService<PurchaseOrderListViewModel>();
+                        purchaseOrderListViewModel.Items.AddRange(selectedItem.Lines);
+
+                        PurchaseOrderListView purchaseOrderListView = new PurchaseOrderListView(purchaseOrderListViewModel, _serviceProvider);
+                        purchaseOrderListView.ShowDialog();
+                    }
+                }
+                
 
                 break;
 

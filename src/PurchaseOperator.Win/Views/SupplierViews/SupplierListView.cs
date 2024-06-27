@@ -141,9 +141,8 @@ public partial class SupplierListView : DevExpress.XtraEditors.XtraForm
                 {
                     CustomPurchaseDispatchPreviewViewModel customPurchaseDispatchPreviewViewModel = _serviceProvider.GetService<CustomPurchaseDispatchPreviewViewModel>();
                     customPurchaseDispatchPreviewViewModel.Supplier = selectedItem;
-                    CustomPurchaseDispatchPreviewView customPurchaseDispatchPreviewView = _serviceProvider.GetService<CustomPurchaseDispatchPreviewView>();
-
-                    customPurchaseDispatchPreviewView.Show();
+                    CustomPurchaseDispatchPreviewView customPurchaseDispatchPreviewView = new CustomPurchaseDispatchPreviewView(customPurchaseDispatchPreviewViewModel, _serviceProvider);
+                    customPurchaseDispatchPreviewView.ShowDialog();
                 }
                 else
                     MessageBox.Show("Lütfen tedarikçi seçiniz..", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
